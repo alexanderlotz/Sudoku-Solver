@@ -22,7 +22,7 @@ public class Cell {
     }
 
     public void setCenterMarks(int mark) {
-        centerMarks[mark] = centerMarks[mark] == 1 ? 0 : 1;
+        centerMarks[mark] = (centerMarks[mark] == 1) ? 0 : 1;
     }
 
     public int[] getCornerMarks() {
@@ -30,7 +30,7 @@ public class Cell {
     }
 
     public void setCornerMarks(int mark) {
-        cornerMarks[mark] = cornerMarks[mark] == 1 ? 0 : 1;
+        cornerMarks[mark] = (cornerMarks[mark] == 1) ? 0 : 1;
     }
 
     public Color getColoring() {
@@ -45,8 +45,8 @@ public class Cell {
         return value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setValue(int value) { //reassess
+        this.value = (this.value == value) ? 0 : value;
     }
 
     public boolean isFocused() {
