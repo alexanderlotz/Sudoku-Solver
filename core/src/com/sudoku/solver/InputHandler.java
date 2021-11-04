@@ -38,7 +38,7 @@ public class InputHandler {
             x = (x - x % 41) / 41;
             int y = Gdx.graphics.getHeight() - Gdx.input.getY();
             y = (y - y % 41) / 41;
-            grid.getPuzzleGrid()[x][y].setColoring(Color.RED);
+            //grid.getPuzzleGrid()[x][y].setColoring(Color.RED);
             grid.getPuzzleGrid()[x][y].setFocused(true);
         } else {
             mouseHeld = false;
