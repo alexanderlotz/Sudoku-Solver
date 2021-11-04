@@ -3,15 +3,20 @@ package com.sudoku.solver;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.sudoku.solver.board.Cell;
 import com.sudoku.solver.board.Grid;
+
+import java.util.ArrayList;
 
 public class InputHandler {
     Grid grid;
     boolean mouseHeld;
+    ArrayList<Cell> setCells;
 
     public InputHandler(Grid grid) {
         this.grid = grid;
         mouseHeld = false;
+        setCells = new ArrayList<>();
     }
 
     public void process() {
@@ -22,24 +27,33 @@ public class InputHandler {
 
     public void checkMouseInput() {
         if (Gdx.input.isTouched()) {
-            if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
-                || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
-                mouseHeld = true;
-            }
-            if (!mouseHeld) {
+            int x = Gdx.input.getX(); //condense into input handler
+            x = (x - x % 41) / 41;
+            int y = Gdx.graphics.getHeight() - Gdx.input.getY();
+            y = (y - y % 41) / 41;
+
+            if (!(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
+                    || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT))
+                    && !mouseHeld) {
                 for (int i = 0; i < grid.getPuzzleGrid().length; i++) {
                     for (int j = 0; j < grid.getPuzzleGrid()[i].length; j++) {
                         grid.getPuzzleGrid()[i][j].setFocused(false);
                     }
                 }
             }
+
+            if(!setCells.contains(grid.getPuzzleGrid()[x][y])) {
+                setCells.add(grid.getPuzzleGrid()[x][y]);
+                if ((Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
+                        || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT))) {
+                    grid.getPuzzleGrid()[x][y].setFocused(!grid.getPuzzleGrid()[x][y].isFocused());
+                } else {
+                    grid.getPuzzleGrid()[x][y].setFocused(true);
+                }
+            }
             mouseHeld = true;
-            int x = Gdx.input.getX(); //condense into input handler
-            x = (x - x % 41) / 41;
-            int y = Gdx.graphics.getHeight() - Gdx.input.getY();
-            y = (y - y % 41) / 41;
-            grid.getPuzzleGrid()[x][y].setFocused(true);
         } else {
+            setCells.clear();
             mouseHeld = false;
         }
     }

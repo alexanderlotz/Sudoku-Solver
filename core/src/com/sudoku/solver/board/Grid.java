@@ -72,4 +72,8 @@ public class Grid {
             validNums.clear();
         }
     }
+
+    public float getCoord(int index, int cellSize) {
+        return index * (cellSize + 1) + (index / 3) * 2;
+    }
 }

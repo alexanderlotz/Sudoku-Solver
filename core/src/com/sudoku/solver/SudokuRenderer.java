@@ -2,24 +2,20 @@ package com.sudoku.solver;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Align;
 import com.sudoku.solver.board.Cell;
 import com.sudoku.solver.board.Grid;
 
 public class SudokuRenderer extends ShapeRenderer {
     SpriteBatch batch;
     BitmapFont font;
-    Texture img;
 
     public SudokuRenderer() {
         super();
-        img = new Texture("badlogic.jpg");
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.BLACK);
@@ -31,7 +27,7 @@ public class SudokuRenderer extends ShapeRenderer {
         for (int i = 0; i < puzzleGrid.length; i++) {
             for (int j = 0; j < puzzleGrid[i].length; j++) {
                 this.setColor((puzzleGrid[i][j].isValid()) ? puzzleGrid[i][j].getColoring() : Color.RED);
-                this.rect(i * (cellSize + 1), j * (cellSize + 1), cellSize, cellSize);
+                this.rect(grid.getCoord(i, cellSize), grid.getCoord(j, cellSize), cellSize, cellSize);
             }
         }
 
@@ -64,8 +60,8 @@ public class SudokuRenderer extends ShapeRenderer {
                 this.setColor(puzzleGrid[i][j].getColoring());
                 if (puzzleGrid[i][j].getValue() != 0) {
                     layout.setText(fontLarge, Integer.toString(puzzleGrid[i][j].getValue()));
-                    fontX = (i * (cellSize + 1)) + (cellSize - layout.width) / 2;
-                    fontY = (j * (cellSize + 1)) + (cellSize + layout.height) / 2;
+                    fontX = grid.getCoord(i, cellSize) + (cellSize - layout.width) / 2;
+                    fontY = grid.getCoord(j, cellSize) + (cellSize + layout.height) / 2;
                     fontLarge.draw(batch, layout, fontX, fontY);
                 }
             }
@@ -82,16 +78,16 @@ public class SudokuRenderer extends ShapeRenderer {
             for (int j = 0; j < puzzleGrid[i].length; j++) {
                 if(puzzleGrid[i][j].isFocused()) {
                     if (!((j + 1) < puzzleGrid[i].length && puzzleGrid[i][j + 1].isFocused())) {
-                        this.rect(i * (cellSize + 1) - offset, (j + 1) * (cellSize + 1) - offset, cellSize + offset * 2, weight); //Top Border
+                        this.rect(grid.getCoord(i, cellSize) - offset, grid.getCoord(j, cellSize) + cellSize + 1 - offset, cellSize + offset * 2, weight); //Top Border
                     }
                     if (!((i + 1) < puzzleGrid.length && puzzleGrid[i + 1][j].isFocused())) {
-                        this.rect((i + 1) * (cellSize + 1) - offset, j * (cellSize + 1) - offset, weight, cellSize + offset * 2); //Right Border
+                        this.rect(grid.getCoord(i, cellSize) + cellSize + 1 - offset, grid.getCoord(j, cellSize) - offset, weight, cellSize + offset * 2); //Right Border
                     }
                     if (!((j - 1) >= 0 && puzzleGrid[i][j - 1].isFocused())) {
-                        this.rect(i * (cellSize + 1) - offset, j * (cellSize + 1) - offset, cellSize + offset * 2, weight); //Bottom Border
+                        this.rect(grid.getCoord(i, cellSize) - offset, grid.getCoord(j, cellSize) - offset, cellSize + offset * 2, weight); //Bottom Border
                     }
                     if (!((i - 1) >= 0 && puzzleGrid[i - 1][j].isFocused())) {
-                        this.rect(i * (cellSize + 1) - offset, j * (cellSize + 1) - offset, weight, cellSize + offset * 2); //Left Border
+                        this.rect(grid.getCoord(i, cellSize) - offset, grid.getCoord(j, cellSize) - offset, weight, cellSize + offset * 2); //Left Border
                     }
                 }
             }
