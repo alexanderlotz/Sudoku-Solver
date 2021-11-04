@@ -7,6 +7,7 @@ public class Cell {
     int[] cornerMarks;
     Color coloring;
     int value;
+    boolean valid;
     boolean focused;
 
     public Cell() {
@@ -14,6 +15,7 @@ public class Cell {
         cornerMarks = new int[9];
         coloring = Color.WHITE;
         value = 0;
+        valid = true;
         focused = false;
     }
 
@@ -47,6 +49,14 @@ public class Cell {
 
     public void setValue(int value) { //reassess
         this.value = (this.value == value) ? 0 : value;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
     public boolean isFocused() {

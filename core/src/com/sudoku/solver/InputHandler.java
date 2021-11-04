@@ -17,6 +17,7 @@ public class InputHandler {
     public void process() {
         checkMouseInput();
         checkValueInput();
+        grid.checkValid();
     }
 
     public void checkMouseInput() {
@@ -28,7 +29,6 @@ public class InputHandler {
             if (!mouseHeld) {
                 for (int i = 0; i < grid.getPuzzleGrid().length; i++) {
                     for (int j = 0; j < grid.getPuzzleGrid()[i].length; j++) {
-                        grid.getPuzzleGrid()[i][j].setColoring(Color.WHITE);
                         grid.getPuzzleGrid()[i][j].setFocused(false);
                     }
                 }
@@ -38,7 +38,6 @@ public class InputHandler {
             x = (x - x % 41) / 41;
             int y = Gdx.graphics.getHeight() - Gdx.input.getY();
             y = (y - y % 41) / 41;
-            //grid.getPuzzleGrid()[x][y].setColoring(Color.RED);
             grid.getPuzzleGrid()[x][y].setFocused(true);
         } else {
             mouseHeld = false;

@@ -30,7 +30,7 @@ public class SudokuRenderer extends ShapeRenderer {
         Cell[][] puzzleGrid = grid.getPuzzleGrid();
         for (int i = 0; i < puzzleGrid.length; i++) {
             for (int j = 0; j < puzzleGrid[i].length; j++) {
-                this.setColor(puzzleGrid[i][j].getColoring());
+                this.setColor((puzzleGrid[i][j].isValid()) ? puzzleGrid[i][j].getColoring() : Color.RED);
                 this.rect(i * (cellSize + 1), j * (cellSize + 1), cellSize, cellSize);
             }
         }
