@@ -132,6 +132,7 @@ If the commit reverts a previous commit, it should begin with `revert:`, followe
 Must be one of the following:
 
 - **docs**: Documentation only changes
+- **assets**: Adding fonts, images, audio, or similar resources.
 - **feat**: A new feature
 - **fix**: A bug fix
 - **perf**: A code change that improves performance
