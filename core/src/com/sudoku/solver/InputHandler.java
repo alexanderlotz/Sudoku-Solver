@@ -3,6 +3,9 @@ package com.sudoku.solver;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.sudoku.solver.board.Cell;
 import com.sudoku.solver.board.Grid;
 
@@ -12,11 +15,13 @@ public class InputHandler {
     Grid grid;
     boolean mouseHeld;
     ArrayList<Cell> setCells;
+    OrthographicCamera camera;
 
-    public InputHandler(Grid grid) {
+    public InputHandler(Grid grid, OrthographicCamera camera) {
         this.grid = grid;
         mouseHeld = false;
         setCells = new ArrayList<>();
+        this.camera = camera;
     }
 
     public void process() {
@@ -28,9 +33,12 @@ public class InputHandler {
     public void checkMouseInput() {
         if (Gdx.input.isTouched()) {
             int x = Gdx.input.getX(); //condense into input handler
-            x = (x - x % 41) / 41;
-            int y = Gdx.graphics.getHeight() - Gdx.input.getY();
-            y = (y - y % 41) / 41;
+            int y = Gdx.input.getY();
+            Vector3 worldCoord = camera.unproject(new Vector3(x, y, 0f));
+            //System.out.println("(x, y) = (" + worldCoord.x + ", " + worldCoord.y + ")");
+
+            x = (int) ((worldCoord.x - worldCoord.x % 41) / 41);
+            y = (int) ((worldCoord.y - worldCoord.y % 41) / 41);
 
             if (!(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
                     || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT))
@@ -41,6 +49,7 @@ public class InputHandler {
                     }
                 }
             }
+
 
             if(!setCells.contains(grid.getPuzzleGrid()[x][y])) {
                 setCells.add(grid.getPuzzleGrid()[x][y]);
@@ -59,6 +68,13 @@ public class InputHandler {
     }
 
     public void checkValueInput() {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            camera.translate(new Vector3(camera.position.x + 1000, 0, 0));
+            System.out.println("Combined:\n" + camera.combined);
+            System.out.println("View:\n" + camera.view);
+            System.out.println("Projection:\n" + camera.projection);
+            System.out.println("Inv. Projection:\n" + camera.invProjectionView);
+        }
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)
                 || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)
                 || Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)

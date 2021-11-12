@@ -1,32 +1,63 @@
 package com.sudoku.solver;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.sudoku.solver.board.Cell;
 import com.sudoku.solver.board.Grid;
 
 public class SudokuRenderer extends ShapeRenderer {
     SpriteBatch batch;
     BitmapFont font;
+    OrthographicCamera camera;
+    FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    BitmapFont fontSmall;
+    BitmapFont fontLarge;
 
     public SudokuRenderer() {
-        super();
-        batch = new SpriteBatch();
-        font = new BitmapFont();
-        font.setColor(Color.BLACK);
+        this(new OrthographicCamera(0,0));
     }
 
+    public SudokuRenderer(OrthographicCamera camera) {
+        super();
+        batch = new SpriteBatch();
+        batch.setProjectionMatrix(camera.combined);
+        font = new BitmapFont();
+        font.setColor(Color.BLACK);
+        this.camera = camera;
+        this.setProjectionMatrix(camera.combined);
+
+        //Memory Leak here
+        //https://github.com/libgdx/libgdx/wiki/Gdx-freetype
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Lato-Regular.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.kerning = false;
+
+        parameter.size = (40 * 3) / 10;
+        fontSmall = generator.generateFont(parameter); // font size 12 pixels
+        //parameter.size *= 3;
+        parameter.size = 400;
+        fontLarge = generator.generateFont(parameter); // font size 12 pixels
+        generator.dispose();
+        fontLarge.setColor(Color.BLUE);
+        fontLarge.getData().setScale(0.09f);
+    }
+//FIX TEXT RENDERING
     public void drawGrid(Grid grid, int cellSize) {
         //Draw cell
         Cell[][] puzzleGrid = grid.getPuzzleGrid();
         for (int i = 0; i < puzzleGrid.length; i++) {
             for (int j = 0; j < puzzleGrid[i].length; j++) {
                 this.setColor((puzzleGrid[i][j].isValid()) ? puzzleGrid[i][j].getColoring() : Color.RED);
+//                Vector3 worldCoord = camera.unproject(new Vector3(grid.getCoord(i, cellSize), grid.getCoord(j, cellSize), 0f));
+//                this.rect(worldCoord.x, worldCoord.y, cellSize, cellSize);
                 this.rect(grid.getCoord(i, cellSize), grid.getCoord(j, cellSize), cellSize, cellSize);
             }
         }
@@ -35,25 +66,25 @@ public class SudokuRenderer extends ShapeRenderer {
 
         this.end();
 
-        //https://github.com/libgdx/libgdx/wiki/Gdx-freetype
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Lato-Regular.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = (cellSize * 3) / 8;
-        BitmapFont fontSmall = generator.generateFont(parameter); // font size 12 pixels
-        parameter.size *= 2;
-        BitmapFont fontLarge = generator.generateFont(parameter); // font size 12 pixels
-        generator.dispose();
-
         //Draw Text
         batch.begin();
 
+
+        /*FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Lato-Regular.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.kerning = false;
+
+        parameter.size = (40 * 3) / 10;
+        fontSmall = generator.generateFont(parameter); // font size 12 pixels
+        parameter.size *= 3;
+        fontLarge = generator.generateFont(parameter); // font size 12 pixels
+        generator.dispose();
+        */
         //https://stackoverflow.com/questions/14271570/libgdx-is-there-an-easy-way-to-center-text-on-each-axis-on-a-button
         GlyphLayout layout = new GlyphLayout();
         float fontX;
         float fontY;
 
-        fontLarge.setColor(Color.BLUE);
-        //fontLarge.getData().setScale(2);
 
         for (int i = 0; i < puzzleGrid.length; i++) {
             for (int j = 0; j < puzzleGrid[i].length; j++) {
@@ -62,11 +93,17 @@ public class SudokuRenderer extends ShapeRenderer {
                     layout.setText(fontLarge, Integer.toString(puzzleGrid[i][j].getValue()));
                     fontX = grid.getCoord(i, cellSize) + (cellSize - layout.width) / 2;
                     fontY = grid.getCoord(j, cellSize) + (cellSize + layout.height) / 2;
+                    Vector3 screenCoord = camera.unproject(new Vector3(fontX, fontY, 0f));
+//                    fontLarge.draw(batch, layout, screenCoord.x, screenCoord.y);
                     fontLarge.draw(batch, layout, fontX, fontY);
                 }
             }
         }
         batch.end();
+
+        //System.out.println((camera.unproject(new Vector3(grid.getCoord(1, cellSize), 0f, 0f)).x - camera.unproject(new Vector3(grid.getCoord(0, cellSize), 0f, 0f)).x)/cellSize);
+        //fontSmall.dispose();
+        //fontLarge.dispose();
     }
 
     public void drawFocusOutline(Grid grid, int cellSize, int weight) { //weight should always be odd.
