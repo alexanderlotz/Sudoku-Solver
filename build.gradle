@@ -18,6 +18,7 @@ buildscript {
 
 allprojects {
     apply plugin: "eclipse"
+    apply plugin: "checkstyle"
 
     version = '1.0'
     ext {
@@ -77,5 +78,22 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
 
+    }
+}
+
+checkstyle {
+    //configFile = rootProject.file(".style/checkstyle.xml")
+}
+
+task showReports {
+    doLast {
+        try {
+            String fileDir = "file:///"+"$buildDir/reports/"
+            java.awt.Desktop.desktop.browse(((fileDir + "checkstyle/main.html").replace("\\","/").replace(" ", "%20").replace("build", "core/build")).toURI())
+            //java.awt.Desktop.desktop.browse(((fileDir + "checkstyle/test.html").replace("\\","/").replace(" ", "%20")).toURI())
+            //java.awt.Desktop.desktop.browse(((fileDir + "checkstyle/main.html").replace("\\","/").replace(" ", "%20")).toURI())
+            //java.awt.Desktop.desktop.browse(((fileDir + "checkstyle/main.html").replace("\\","/").replace(" ", "%20")).toURI())
+        } catch(URISyntaxException e) {
+        }
     }
 }
