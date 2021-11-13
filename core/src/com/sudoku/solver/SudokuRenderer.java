@@ -169,7 +169,7 @@ public class SudokuRenderer extends ShapeRenderer {
     }
 
     public void drawMarkings(int row, int col) {
-        int[] markings = puzzle.getBoard()[row][col].getCornerMarks();
+        int[] markings = puzzle.getBoard()[row][col].getCornerMarkArray();
         int markingIndex = 0;
         GlyphLayout layout = new GlyphLayout();
         float fontX = 0;

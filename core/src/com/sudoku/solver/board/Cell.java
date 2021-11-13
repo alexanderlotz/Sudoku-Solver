@@ -68,13 +68,21 @@ public class Cell {
      *
      * @return TODO
      */
-    public int[] getCornerMarks() {
+    public int[] getCornerMarkArray() {
         int[] markingsArray = new int[cornerMarks.size()];
         Iterator markIterator = cornerMarks.iterator();
         for (int i = 0; i < cornerMarks.size(); i++) {
             markingsArray[i] = (int) markIterator.next();
         }
         return markingsArray;
+    }
+
+    /**
+     *
+     * @return TODO
+     */
+    public Set<Integer> getCornerMarks() {
+        return cornerMarks;
     }
 
     /**
