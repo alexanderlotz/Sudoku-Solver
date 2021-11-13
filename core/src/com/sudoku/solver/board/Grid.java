@@ -1,22 +1,41 @@
 package com.sudoku.solver.board;
 
-
-import com.badlogic.gdx.graphics.Color;
-
-import java.util.AbstractSet;
-import java.util.ArrayList;
 import java.util.TreeSet;
 
-public class Grid {
-    Cell[][] puzzleGrid;
+import static com.sudoku.solver.SudokuProperties.BOARD_COLUMNS;
+import static com.sudoku.solver.SudokuProperties.BOARD_ROWS;
+import static com.sudoku.solver.SudokuProperties.CELL_SIZE;
+import static com.sudoku.solver.SudokuProperties.INNER_CELLS;
+import static com.sudoku.solver.SudokuProperties.INNER_SQUARES;
+import static com.sudoku.solver.SudokuProperties.INNER_SQUARE_BORDER;
+import static com.sudoku.solver.SudokuProperties.INNER_SQUARE_SIZE;
 
+public class Grid {
+    /**
+     *
+     */
+    private Cell[][] puzzleGrid;
+    /**
+     *
+     */
+    private int width;
+    /**
+     *
+     */
+    private int height;
+
+    /**
+     *
+     */
     public Grid() {
-        puzzleGrid = new Cell[9][9];
+        puzzleGrid = new Cell[BOARD_ROWS][BOARD_COLUMNS];
         for (int i = 0; i < puzzleGrid.length; i++) {
             for (int j = 0; j < puzzleGrid[i].length; j++) {
                 puzzleGrid[i][j] = new Cell();
             }
         }
+        width = (BOARD_COLUMNS * CELL_SIZE) + (INNER_SQUARE_SIZE + 1) * INNER_SQUARE_BORDER;
+        height = (BOARD_ROWS * CELL_SIZE) + (INNER_SQUARE_SIZE + 1) * INNER_SQUARE_BORDER;
     }
 
     public Cell[][] getPuzzleGrid() {
@@ -36,7 +55,7 @@ public class Grid {
         //Vaidate rows
         for (int col = 0; col < puzzleGrid.length; col++) {
             for (int row = 0; row < puzzleGrid[col].length; row++) {
-                if(puzzleGrid[row][col].getValue() != 0 && !validNums.add(puzzleGrid[row][col].getValue())) {
+                if (puzzleGrid[row][col].getValue() != 0 && !validNums.add(puzzleGrid[row][col].getValue())) {
                     for (int i = 0; i < puzzleGrid[col].length; i++) {
                         puzzleGrid[i][col].setValid(false);
                     }
@@ -49,7 +68,7 @@ public class Grid {
         //Vaidate columns
         for (int row = 0; row < puzzleGrid.length; row++) {
             for (int col = 0; col < puzzleGrid[row].length; col++) {
-                if(puzzleGrid[row][col].getValue() != 0 && !validNums.add(puzzleGrid[row][col].getValue())) {
+                if (puzzleGrid[row][col].getValue() != 0 && !validNums.add(puzzleGrid[row][col].getValue())) {
                     for (int i = 0; i < puzzleGrid[row].length; i++) {
                         puzzleGrid[row][i].setValid(false);
                     }
@@ -60,11 +79,20 @@ public class Grid {
         }
 
         //Validate 3x3 blocks
-        for (int block = 0; block < puzzleGrid.length; block++) {
-            for (int cell = 0; cell < puzzleGrid[block].length; cell++) {
-                if(puzzleGrid[3 * (block % 3) + cell % 3][(block - (block % 3)) + cell / 3].getValue() != 0 && !validNums.add(puzzleGrid[3 * (block % 3) + cell % 3][(block - (block % 3)) + cell / 3].getValue())) {
-                    for (int i = 0; i < puzzleGrid[block].length; i++) {
-                        puzzleGrid[3 * (block % 3) + i % 3][(block - (block % 3)) + i / 3].setValid(false);
+        for (int innerSquare = 0; innerSquare < INNER_SQUARES; innerSquare++) {
+            for (int cell = 0; cell < INNER_CELLS; cell++) {
+                int innerOffset = innerSquare % INNER_SQUARE_SIZE;
+
+                if (puzzleGrid[INNER_SQUARE_SIZE * (innerOffset) + cell % INNER_SQUARE_SIZE]
+                             [(innerSquare - (innerOffset)) + cell / INNER_SQUARE_SIZE]
+                             .getValue() != 0
+                          && !validNums.add(puzzleGrid[INNER_SQUARE_SIZE * (innerOffset) + cell % INNER_SQUARE_SIZE]
+                                                      [(innerSquare - (innerOffset)) + cell / INNER_SQUARE_SIZE]
+                                                      .getValue())) {
+                    for (int i = 0; i < puzzleGrid[innerSquare].length; i++) {
+                        puzzleGrid[INNER_SQUARE_SIZE * (innerOffset) + i % INNER_SQUARE_SIZE]
+                                  [(innerSquare - (innerOffset)) + i / INNER_SQUARE_SIZE]
+                                  .setValid(false);
                     }
                     break;
                 }
@@ -73,7 +101,27 @@ public class Grid {
         }
     }
 
-    public float getCoord(int index, int cellSize) {
-        return index * (cellSize + 1) + (index / 3) * 2;
+    public static float getScreenCoord(int index) {
+        return index * (CELL_SIZE + 1) + (index / INNER_SQUARE_SIZE) * INNER_SQUARE_BORDER;
+    }
+
+    public static int getGridCoord(int screenPos) { // FIX LATER
+        return screenPos / (CELL_SIZE + 1);
+    }
+
+    /**
+     *
+     * @return TODO
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     *
+     * @return TODO
+     */
+    public int getHeight() {
+        return height;
     }
 }
