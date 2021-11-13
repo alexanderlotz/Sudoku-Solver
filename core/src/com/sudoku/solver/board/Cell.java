@@ -2,6 +2,11 @@ package com.sudoku.solver.board;
 
 import com.badlogic.gdx.graphics.Color;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import static com.sudoku.solver.SudokuProperties.DEFAULT_CELL_COLOR;
 import static com.sudoku.solver.SudokuProperties.TOTAL_VALUES;
 
@@ -13,7 +18,7 @@ public class Cell {
     /**
      *
      */
-    private int[] cornerMarks;
+    private Set<Integer> cornerMarks;
     /**
      *
      */
@@ -36,7 +41,7 @@ public class Cell {
      */
     public Cell() {
         centerMarks = new int[TOTAL_VALUES];
-        cornerMarks = new int[TOTAL_VALUES];
+        cornerMarks = new HashSet<Integer>();
         coloring = DEFAULT_CELL_COLOR;
         value = 0;
         valid = true;
@@ -64,15 +69,58 @@ public class Cell {
      * @return TODO
      */
     public int[] getCornerMarks() {
-        return cornerMarks;
+        int[] markingsArray = new int[cornerMarks.size()];
+        Iterator markIterator = cornerMarks.iterator();
+        for (int i = 0; i < cornerMarks.size(); i++) {
+            markingsArray[i] = (int) markIterator.next();
+        }
+        return markingsArray;
     }
 
     /**
      *
      * @param mark
      */
-    public void setCornerMarks(int mark) {
-        cornerMarks[mark] = (cornerMarks[mark] == 1) ? 0 : 1;
+    public void toggleCornerMark(int mark) {
+        if (cornerMarks.contains(mark)) {
+            cornerMarks.remove(mark);
+        } else {
+            cornerMarks.add(mark);
+        }
+    }
+
+    /**
+     *
+     * @param mark
+     * @return TODO
+     */
+    public boolean addCornerMark(int mark) {
+        return cornerMarks.add(mark);
+    }
+
+    /**
+     *
+     * @param marks
+     * @return TODO
+     */
+    public boolean addCornerMarks(Integer[] marks) {
+        return cornerMarks.addAll(Arrays.asList(marks));
+    }
+
+    /**
+     *
+     * @param mark
+     * @return TODO
+     */
+    public boolean removeCornerMark(int mark) {
+        return cornerMarks.remove(mark);
+    }
+
+    /**
+     *
+     */
+    public void clearCornerMarks() {
+        cornerMarks.clear();
     }
 
     /**

@@ -14,7 +14,7 @@ public class Grid {
     /**
      *
      */
-    private Cell[][] puzzleGrid;
+    private Cell[][] board;
     /**
      *
      */
@@ -28,36 +28,36 @@ public class Grid {
      *
      */
     public Grid() {
-        puzzleGrid = new Cell[BOARD_ROWS][BOARD_COLUMNS];
-        for (int i = 0; i < puzzleGrid.length; i++) {
-            for (int j = 0; j < puzzleGrid[i].length; j++) {
-                puzzleGrid[i][j] = new Cell();
+        board = new Cell[BOARD_ROWS][BOARD_COLUMNS];
+        for (int row = 0; row < BOARD_ROWS; row++) {
+            for (int col = 0; col < BOARD_COLUMNS; col++) {
+                board[row][col] = new Cell();
             }
         }
         width = (BOARD_COLUMNS * CELL_SIZE) + (INNER_SQUARE_SIZE + 1) * INNER_SQUARE_BORDER;
         height = (BOARD_ROWS * CELL_SIZE) + (INNER_SQUARE_SIZE + 1) * INNER_SQUARE_BORDER;
     }
 
-    public Cell[][] getPuzzleGrid() {
-        return puzzleGrid;
+    public Cell[][] getBoard() {
+        return board;
     }
 
     public void checkValid() { //make into bool
         TreeSet validNums = new TreeSet();
 
         //Clear cells
-        for (int r = 0; r < puzzleGrid.length; r++) {
-            for (int c = 0; c < puzzleGrid[r].length; c++) {
-                puzzleGrid[r][c].setValid(true);
+        for (int r = 0; r < board.length; r++) {
+            for (int c = 0; c < board[r].length; c++) {
+                board[r][c].setValid(true);
             }
         }
 
         //Vaidate rows
-        for (int col = 0; col < puzzleGrid.length; col++) {
-            for (int row = 0; row < puzzleGrid[col].length; row++) {
-                if (puzzleGrid[row][col].getValue() != 0 && !validNums.add(puzzleGrid[row][col].getValue())) {
-                    for (int i = 0; i < puzzleGrid[col].length; i++) {
-                        puzzleGrid[i][col].setValid(false);
+        for (int col = 0; col < board.length; col++) {
+            for (int row = 0; row < board[col].length; row++) {
+                if (board[row][col].getValue() != 0 && !validNums.add(board[row][col].getValue())) {
+                    for (int i = 0; i < board[col].length; i++) {
+                        board[i][col].setValid(false);
                     }
                     break;
                 }
@@ -66,11 +66,11 @@ public class Grid {
         }
 
         //Vaidate columns
-        for (int row = 0; row < puzzleGrid.length; row++) {
-            for (int col = 0; col < puzzleGrid[row].length; col++) {
-                if (puzzleGrid[row][col].getValue() != 0 && !validNums.add(puzzleGrid[row][col].getValue())) {
-                    for (int i = 0; i < puzzleGrid[row].length; i++) {
-                        puzzleGrid[row][i].setValid(false);
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[row].length; col++) {
+                if (board[row][col].getValue() != 0 && !validNums.add(board[row][col].getValue())) {
+                    for (int i = 0; i < board[row].length; i++) {
+                        board[row][i].setValid(false);
                     }
                     break;
                 }
@@ -83,14 +83,14 @@ public class Grid {
             for (int cell = 0; cell < INNER_CELLS; cell++) {
                 int innerOffset = innerSquare % INNER_SQUARE_SIZE;
 
-                if (puzzleGrid[INNER_SQUARE_SIZE * (innerOffset) + cell % INNER_SQUARE_SIZE]
+                if (board[INNER_SQUARE_SIZE * (innerOffset) + cell % INNER_SQUARE_SIZE]
                              [(innerSquare - (innerOffset)) + cell / INNER_SQUARE_SIZE]
                              .getValue() != 0
-                          && !validNums.add(puzzleGrid[INNER_SQUARE_SIZE * (innerOffset) + cell % INNER_SQUARE_SIZE]
+                          && !validNums.add(board[INNER_SQUARE_SIZE * (innerOffset) + cell % INNER_SQUARE_SIZE]
                                                       [(innerSquare - (innerOffset)) + cell / INNER_SQUARE_SIZE]
                                                       .getValue())) {
-                    for (int i = 0; i < puzzleGrid[innerSquare].length; i++) {
-                        puzzleGrid[INNER_SQUARE_SIZE * (innerOffset) + i % INNER_SQUARE_SIZE]
+                    for (int i = 0; i < board[innerSquare].length; i++) {
+                        board[INNER_SQUARE_SIZE * (innerOffset) + i % INNER_SQUARE_SIZE]
                                   [(innerSquare - (innerOffset)) + i / INNER_SQUARE_SIZE]
                                   .setValid(false);
                     }

@@ -39,7 +39,7 @@ public class SudokuSolver extends ApplicationAdapter {
         camera.position.set(grid.getWidth() / 2, grid.getHeight() / 2, 0);
         camera.update();
 
-        sudokuRenderer = new SudokuRenderer(camera);
+        sudokuRenderer = new SudokuRenderer(camera, grid);
         inputHandler = new InputHandler(grid, camera);
     }
 
@@ -53,7 +53,7 @@ public class SudokuSolver extends ApplicationAdapter {
 
         sudokuRenderer.begin(SudokuRenderer.ShapeType.Filled);
         sudokuRenderer.setColor(0, 1, 0, 1);
-        sudokuRenderer.drawGrid(grid, SudokuProperties.CELL_SIZE); //MEMORY LEAK
+        sudokuRenderer.drawGrid();
         sudokuRenderer.end();
     }
 

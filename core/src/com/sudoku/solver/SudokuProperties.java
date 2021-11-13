@@ -34,6 +34,10 @@ public final class SudokuProperties {
     /**
      *
      */
+    public static final int NUM_SUB_CELLS = 3;
+    /**
+     *
+     */
     public static final int BOARD_ROWS = 9;
     /**
      *
@@ -66,7 +70,7 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final float SMALL_FONT_SCALE = 0.04f;
+    public static final float SMALL_FONT_SCALE = 0.03f;
     /**
      *
      */
@@ -77,5 +81,12 @@ public final class SudokuProperties {
          *
          */
         NONE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE;
+    }
+
+    public enum MarkingPosition {
+        /**
+         *
+         */
+        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, TOP_MIDDLE, BOTTOM_MIDDLE, MIDDLE_LEFT, MIDDLE_RIGHT, CENTER;
     }
 }
