@@ -62,7 +62,7 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final int OUTLINE_WEIGHT = 7;
+    public static final int OUTLINE_WEIGHT = 5;
     /**
      *
      */

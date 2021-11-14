@@ -61,7 +61,9 @@ public class Grid {
             for (int row = 0; row < BOARD_COLUMNS; row++) {
                 if (board[row][col].getValue() != 0 && !validNums.add(board[row][col].getValue())) {
                     for (int i = 0; i < board[col].length; i++) {
-                        board[i][col].setValid(false);
+                        if(board[i][col].getValue() == board[row][col].getValue()) {
+                            board[i][col].setValid(false);
+                        }
                     }
                     break;
                 }
@@ -74,7 +76,9 @@ public class Grid {
             for (int col = 0; col < BOARD_COLUMNS; col++) {
                 if (board[row][col].getValue() != 0 && !validNums.add(board[row][col].getValue())) {
                     for (int i = 0; i < board[row].length; i++) {
-                        board[row][i].setValid(false);
+                        if(board[row][i].getValue() == board[row][col].getValue()) {
+                            board[row][i].setValid(false);
+                        }
                     }
                     break;
                 }
@@ -86,17 +90,16 @@ public class Grid {
         for (int innerSquare = 0; innerSquare < INNER_SQUARES; innerSquare++) {
             for (int cell = 0; cell < INNER_CELLS; cell++) {
                 int innerOffset = innerSquare % INNER_SQUARE_SIZE;
-
-                if (board[INNER_SQUARE_SIZE * (innerOffset) + cell % INNER_SQUARE_SIZE]
-                             [(innerSquare - (innerOffset)) + cell / INNER_SQUARE_SIZE]
-                             .getValue() != 0
-                          && !validNums.add(board[INNER_SQUARE_SIZE * (innerOffset) + cell % INNER_SQUARE_SIZE]
-                                                      [(innerSquare - (innerOffset)) + cell / INNER_SQUARE_SIZE]
-                                                      .getValue())) {
+                int innerRow = INNER_SQUARE_SIZE * (innerOffset) + cell % INNER_SQUARE_SIZE;
+                int innerCol = (innerSquare - (innerOffset)) + cell / INNER_SQUARE_SIZE;
+                if (board[innerRow][innerCol].getValue() != 0
+                        && !validNums.add(board[innerRow][innerCol].getValue())) {
                     for (int i = 0; i < board[innerSquare].length; i++) {
-                        board[INNER_SQUARE_SIZE * (innerOffset) + i % INNER_SQUARE_SIZE]
-                                  [(innerSquare - (innerOffset)) + i / INNER_SQUARE_SIZE]
-                                  .setValid(false);
+                        int checkRow = INNER_SQUARE_SIZE * (innerOffset) + i % INNER_SQUARE_SIZE;
+                        int checkCol = (innerSquare - (innerOffset)) + i / INNER_SQUARE_SIZE;
+                        if(board[checkRow][checkCol].getValue() == board[innerRow][innerCol].getValue()) {
+                            board[checkRow][checkCol].setValid(false);
+                        }
                     }
                     break;
                 }
