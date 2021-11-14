@@ -89,4 +89,26 @@ public final class SudokuProperties {
          */
         TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, TOP_MIDDLE, BOTTOM_MIDDLE, MIDDLE_LEFT, MIDDLE_RIGHT, CENTER;
     }
+
+    /*
+    //Analyze rows
+    for (int checkRow = 0; checkRow < BOARD_ROWS; checkRow++) {
+        if (checkRow != row) {
+        }
+    }
+
+    //Analyze columns
+    for (int checkCol = 0; checkCol < BOARD_COLUMNS; checkCol++) {
+        if (checkCol != col) {
+        }
+    }
+
+    //Analyze inner squares
+    for (int checkInner = 0; checkInner < INNER_CELLS; checkInner++) {
+        int checkRow = (row - row % INNER_SQUARE_SIZE) + checkInner % INNER_SQUARE_SIZE;
+        int checkCol = (col - col % INNER_SQUARE_SIZE) + checkInner / INNER_SQUARE_SIZE;
+        if (checkRow != row || checkCol != col) {
+        }
+    }
+    */
 }
