@@ -36,7 +36,8 @@ public class SudokuSolver extends ApplicationAdapter {
         aspectRatio = (float) Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
         camera = new OrthographicCamera((aspectRatio * grid.getWidth()) + CAMERA_BORDER,
                             grid.getHeight() + CAMERA_BORDER);
-        camera.position.set(grid.getWidth() / 2, grid.getHeight() / 2, 0);
+        camera.position.set(Gdx.graphics.getWidth() - (grid.getWidth() + CAMERA_BORDER),
+                            grid.getHeight() / 2, 0);
         camera.update();
 
         sudokuRenderer = new SudokuRenderer(camera, grid);
