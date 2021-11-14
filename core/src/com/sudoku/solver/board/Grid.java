@@ -46,15 +46,15 @@ public class Grid {
         TreeSet validNums = new TreeSet();
 
         //Clear cells
-        for (int r = 0; r < board.length; r++) {
-            for (int c = 0; c < board[r].length; c++) {
-                board[r][c].setValid(true);
+        for (int row = 0; row < BOARD_ROWS; row++) {
+            for (int col = 0; col < BOARD_COLUMNS; col++) {
+                board[row][col].setValid(true);
             }
         }
 
         //Vaidate rows
-        for (int col = 0; col < board.length; col++) {
-            for (int row = 0; row < board[col].length; row++) {
+        for (int col = 0; col < BOARD_ROWS; col++) {
+            for (int row = 0; row < BOARD_COLUMNS; row++) {
                 if (board[row][col].getValue() != 0 && !validNums.add(board[row][col].getValue())) {
                     for (int i = 0; i < board[col].length; i++) {
                         board[i][col].setValid(false);
@@ -66,8 +66,8 @@ public class Grid {
         }
 
         //Vaidate columns
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board[row].length; col++) {
+        for (int row = 0; row < BOARD_ROWS; row++) {
+            for (int col = 0; col < BOARD_COLUMNS; col++) {
                 if (board[row][col].getValue() != 0 && !validNums.add(board[row][col].getValue())) {
                     for (int i = 0; i < board[row].length; i++) {
                         board[row][i].setValid(false);
@@ -123,5 +123,44 @@ public class Grid {
      */
     public int getHeight() {
         return height;
+    }
+
+    public void writeToString() {
+        String boardString = "";
+        for (int col = BOARD_COLUMNS - 1; col >= 0; col--) {
+            for (int row = 0; row < BOARD_ROWS; row++) {
+                boardString += board[row][col].getValue();
+            }
+        }
+        System.out.println(boardString);
+    }
+
+    public void readFromString(String boardString) {
+        boardString = boardString.replace(".","0");
+        for (int row = 0; row < BOARD_ROWS; row++) {
+            for (int col = 0; col < BOARD_COLUMNS; col++) {
+                board[row][col].clearCornerMarks();
+                board[row][col].setValue(Character.getNumericValue(boardString.charAt(row + ((BOARD_COLUMNS - 1) - col) * BOARD_COLUMNS)));
+            }
+        }
+    }
+
+    public void updateCell(int row, int col, int mark) {
+        //Analyze rows
+        for (int checkRow = 0; checkRow < BOARD_ROWS; checkRow++) {
+             board[checkRow][col].removeCornerMark(mark);
+        }
+
+        //Analyze columns
+        for (int checkCol = 0; checkCol < BOARD_COLUMNS; checkCol++) {
+            board[row][checkCol].removeCornerMark(mark);
+        }
+
+        //Analyze inner squares
+        for (int checkInner = 0; checkInner < INNER_CELLS; checkInner++) {
+            int checkRow = (row - row % INNER_SQUARE_SIZE) + checkInner % INNER_SQUARE_SIZE;
+            int checkCol = (col - col % INNER_SQUARE_SIZE) + checkInner / INNER_SQUARE_SIZE;
+            board[checkRow][checkCol].removeCornerMark(mark);
+        }
     }
 }
