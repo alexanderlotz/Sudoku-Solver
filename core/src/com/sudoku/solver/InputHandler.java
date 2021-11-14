@@ -271,6 +271,9 @@ public class InputHandler {
             keyMove();
         }
 
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            System.exit(0);
+        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             StrategyTester.solve(puzzle);
         }
