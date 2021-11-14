@@ -7,17 +7,11 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.sudoku.solver.board.Grid;
 
-import static com.sudoku.solver.SudokuProperties.BOARD_COLUMNS;
-import static com.sudoku.solver.SudokuProperties.BOARD_ROWS;
-import static com.sudoku.solver.SudokuProperties.CELL_SIZE;
-import static com.sudoku.solver.SudokuProperties.DEFAULT_ERROR_COLOR;
-import static com.sudoku.solver.SudokuProperties.DEFAULT_OUTLINE_COLOR;
-import static com.sudoku.solver.SudokuProperties.MarkingPosition;
-import static com.sudoku.solver.SudokuProperties.NUM_SUB_CELLS;
-import static com.sudoku.solver.SudokuProperties.OUTLINE_WEIGHT;
+import static com.sudoku.solver.SudokuProperties.*;
 
 public class SudokuRenderer extends ShapeRenderer {
     /**
@@ -223,5 +217,10 @@ public class SudokuRenderer extends ShapeRenderer {
             fontSmall.draw(batch, layout, fontX, fontY);
             markingIndex++;
         }
+    }
+
+    public void drawGUI() {
+        this.setColor(GUI_BG_COLOR);
+        this.rect(puzzle.getWidth() + CAMERA_BORDER / 2, -1 * CAMERA_BORDER / 2, camera.viewportWidth - puzzle.getWidth() - CAMERA_BORDER, puzzle.getHeight() + CAMERA_BORDER);
     }
 }

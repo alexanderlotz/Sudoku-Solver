@@ -46,15 +46,19 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final Color DEFAULT_CELL_COLOR = Color.WHITE;
+    public static final Color BOARD_BG_COLOR = Color.valueOf("3C3C3C");//Color.TEAL;
     /**
      *
      */
-    public static final Color DEFAULT_ERROR_COLOR = Color.RED;
+    public static final Color DEFAULT_CELL_COLOR = Color.valueOf("F5F5F5");//Color.WHITE;
     /**
      *
      */
-    public static final Color DEFAULT_OUTLINE_COLOR = Color.TEAL;
+    public static final Color DEFAULT_ERROR_COLOR = Color.valueOf("FF5A5F");//Color.RED;
+    /**
+     *
+     */
+    public static final Color DEFAULT_OUTLINE_COLOR = Color.valueOf("087E8B");//Color.TEAL;
     /**
      *
      */
@@ -66,7 +70,7 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final Color DEFAULT_FONT_COLOR = Color.BLUE;
+    public static final Color DEFAULT_FONT_COLOR = Color.valueOf("087E8B");//Color.BLUE;
     /**
      *
      */
@@ -75,6 +79,10 @@ public final class SudokuProperties {
      *
      */
     public static final float LARGE_FONT_SCALE = 0.08f;
+    /**
+     *
+     */
+    public static final Color GUI_BG_COLOR = Color.valueOf("ECDCB0");//Color.TEAL;
 
     public enum SudokuValues {
         /**
