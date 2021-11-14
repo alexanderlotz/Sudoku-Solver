@@ -1,6 +1,10 @@
 package com.sudoku.solver.board;
 
+import com.badlogic.gdx.math.Vector2;
+
+import java.awt.*;
 import java.util.TreeSet;
+import java.util.Vector;
 
 import static com.sudoku.solver.SudokuProperties.BOARD_COLUMNS;
 import static com.sudoku.solver.SudokuProperties.BOARD_ROWS;
@@ -162,5 +166,20 @@ public class Grid {
             int checkCol = (col - col % INNER_SQUARE_SIZE) + checkInner / INNER_SQUARE_SIZE;
             board[checkRow][checkCol].removeCornerMark(mark);
         }
+    }
+
+    public static Point enforceBounds(Point unboundedVector) {
+        Point boundedVector = unboundedVector;
+        if (boundedVector.x >= BOARD_COLUMNS) {
+            boundedVector.x = BOARD_COLUMNS - 1;
+        } else if (boundedVector.x < 0) {
+            boundedVector.x = 0;
+        }
+        if (boundedVector.y >= BOARD_ROWS) {
+            boundedVector.y = BOARD_ROWS - 1;
+        } else if (boundedVector.y < 0) {
+            boundedVector.y = 0;
+        }
+        return boundedVector;
     }
 }
