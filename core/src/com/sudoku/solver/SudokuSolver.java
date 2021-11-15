@@ -3,13 +3,8 @@ package com.sudoku.solver;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sudoku.solver.board.Grid;
-
-import java.awt.*;
 
 import static com.sudoku.solver.SudokuProperties.BOARD_BG_COLOR;
 import static com.sudoku.solver.SudokuProperties.CAMERA_BORDER;

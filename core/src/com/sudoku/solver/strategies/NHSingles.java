@@ -1,6 +1,5 @@
 package com.sudoku.solver.strategies;
 
-import com.sudoku.solver.SudokuProperties;
 import com.sudoku.solver.board.Cell;
 import com.sudoku.solver.board.Grid;
 

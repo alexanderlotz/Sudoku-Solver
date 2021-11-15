@@ -1,13 +1,11 @@
 package com.sudoku.solver.board;
 
-import com.badlogic.gdx.math.Vector2;
-
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.TreeSet;
-import java.util.Vector;
 
 import static com.sudoku.solver.SudokuProperties.BOARD_COLUMNS;
 import static com.sudoku.solver.SudokuProperties.BOARD_ROWS;
@@ -64,7 +62,7 @@ public class Grid {
             for (int row = 0; row < BOARD_COLUMNS; row++) {
                 if (board[row][col].getValue() != 0 && !validNums.add(board[row][col].getValue())) {
                     for (int i = 0; i < board[col].length; i++) {
-                        if(board[i][col].getValue() == board[row][col].getValue()) {
+                        if (board[i][col].getValue() == board[row][col].getValue()) {
                             board[i][col].setValid(false);
                         }
                     }
@@ -79,7 +77,7 @@ public class Grid {
             for (int col = 0; col < BOARD_COLUMNS; col++) {
                 if (board[row][col].getValue() != 0 && !validNums.add(board[row][col].getValue())) {
                     for (int i = 0; i < board[row].length; i++) {
-                        if(board[row][i].getValue() == board[row][col].getValue()) {
+                        if (board[row][i].getValue() == board[row][col].getValue()) {
                             board[row][i].setValid(false);
                         }
                     }
@@ -100,7 +98,7 @@ public class Grid {
                     for (int i = 0; i < board[innerSquare].length; i++) {
                         int checkRow = INNER_SQUARE_SIZE * (innerOffset) + i % INNER_SQUARE_SIZE;
                         int checkCol = (innerSquare - (innerOffset)) + i / INNER_SQUARE_SIZE;
-                        if(board[checkRow][checkCol].getValue() == board[innerRow][innerCol].getValue()) {
+                        if (board[checkRow][checkCol].getValue() == board[innerRow][innerCol].getValue()) {
                             board[checkRow][checkCol].setValid(false);
                         }
                     }
@@ -156,12 +154,12 @@ public class Grid {
                     for (int col = 0; col < BOARD_COLUMNS; col++) {
                         board[row][col].clearCornerMarks();
                         board[row][col].setValue(0);
-                        board[row][col].setValue(Character.getNumericValue(boardString.charAt(row + ((BOARD_COLUMNS - 1) - col) * BOARD_COLUMNS)));
+                        board[row][col].setValue(Character.getNumericValue(boardString
+                                .charAt(row + ((BOARD_COLUMNS - 1) - col) * BOARD_COLUMNS)));
                     }
                 }
             }
-        }
-        catch (UnsupportedFlavorException | IOException e) {
+        } catch (UnsupportedFlavorException | IOException e) {
 
         }
     }

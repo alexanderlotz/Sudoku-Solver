@@ -3,12 +3,11 @@ package com.sudoku.solver;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.sudoku.solver.board.Cell;
 import com.sudoku.solver.board.Grid;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 
 import com.sudoku.solver.SudokuProperties.SudokuValues;
@@ -46,7 +45,7 @@ public class InputHandler {
         mouseHeld = false;
         setCells = new ArrayList<>();
         this.camera = camera;
-        primeFocus = new Point(0,0);
+        primeFocus = new Point(0, 0);
     }
 
     /**
@@ -89,7 +88,8 @@ public class InputHandler {
                 setCells.add(puzzle.getBoard()[primeFocus.x][primeFocus.y]);
                 if ((Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
                         || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT))) {
-                    puzzle.getBoard()[primeFocus.x][primeFocus.y].setFocused(!puzzle.getBoard()[primeFocus.x][primeFocus.y].isFocused());
+                    puzzle.getBoard()[primeFocus.x][primeFocus.y]
+                            .setFocused(!puzzle.getBoard()[primeFocus.x][primeFocus.y].isFocused());
                 } else {
                     puzzle.getBoard()[primeFocus.x][primeFocus.y].setFocused(true);
                 }
@@ -271,7 +271,7 @@ public class InputHandler {
             keyMove();
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             System.exit(0);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
@@ -284,7 +284,6 @@ public class InputHandler {
             puzzle.writeToString();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.V)) {
-            //puzzle.readFromString("012009080803500409000000000200100976000000000158007002000000000409008603080400590");
             puzzle.readFromString();
         }
     }
