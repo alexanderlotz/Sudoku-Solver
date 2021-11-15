@@ -25,6 +25,13 @@ public class NHSingles {
                 cellMarkings = checkedCell.getCornerMarks();
 
                 if (checkedCell.getValue() == SudokuValues.NONE.ordinal()) {
+                    if (checkedCell.getCornerMarks().size() == 1) {
+                        int mark = checkedCell.getCornerMarkArray()[0];
+                        checkedCell.clearCornerMarks();
+                        puzzle.updateCell(row, col, mark);
+                        checkedCell.setValue(mark);
+                        return true;
+                    }
                     for (int mark : cellMarkings) {
                         //Analyze rows
                         matched = true;
