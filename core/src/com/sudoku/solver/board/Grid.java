@@ -3,6 +3,9 @@ package com.sudoku.solver.board;
 import com.badlogic.gdx.math.Vector2;
 
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -142,13 +145,24 @@ public class Grid {
         System.out.println(boardString);
     }
 
-    public void readFromString(String boardString) {
-        boardString = boardString.replace(".","0");
-        for (int row = 0; row < BOARD_ROWS; row++) {
-            for (int col = 0; col < BOARD_COLUMNS; col++) {
-                board[row][col].clearCornerMarks();
-                board[row][col].setValue(Character.getNumericValue(boardString.charAt(row + ((BOARD_COLUMNS - 1) - col) * BOARD_COLUMNS)));
+    //public void readFromString(String boardString) {
+    public void readFromString() {
+        //boardString = boardString.replace(".","0");
+        try {
+            String boardString = (String) Toolkit.getDefaultToolkit()
+                    .getSystemClipboard().getData(DataFlavor.stringFlavor);
+            if (boardString.length() == BOARD_ROWS * BOARD_COLUMNS && boardString.matches("[0-9]+")) {
+                for (int row = 0; row < BOARD_ROWS; row++) {
+                    for (int col = 0; col < BOARD_COLUMNS; col++) {
+                        board[row][col].clearCornerMarks();
+                        board[row][col].setValue(0);
+                        board[row][col].setValue(Character.getNumericValue(boardString.charAt(row + ((BOARD_COLUMNS - 1) - col) * BOARD_COLUMNS)));
+                    }
+                }
             }
+        }
+        catch (UnsupportedFlavorException | IOException e) {
+
         }
     }
 

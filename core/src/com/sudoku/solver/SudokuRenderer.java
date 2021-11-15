@@ -220,7 +220,23 @@ public class SudokuRenderer extends ShapeRenderer {
     }
 
     public void drawGUI() {
+        float guiX = puzzle.getWidth() + CAMERA_BORDER / 2;
+        float guiY = -1 * CAMERA_BORDER / 2;
+        float guiWidth = camera.viewportWidth - puzzle.getWidth() - CAMERA_BORDER;
+        float guiHeight = puzzle.getHeight() + CAMERA_BORDER;
         this.setColor(GUI_BG_COLOR);
-        this.rect(puzzle.getWidth() + CAMERA_BORDER / 2, -1 * CAMERA_BORDER / 2, camera.viewportWidth - puzzle.getWidth() - CAMERA_BORDER, puzzle.getHeight() + CAMERA_BORDER);
+        this.rect(guiX, guiY, guiWidth, guiHeight);
+        drawButton(guiX + GUI_BORDER, guiY + GUI_BORDER, guiWidth - 2 * GUI_BORDER, BUTTON_HEIGHT, "");
+    }
+
+    public void drawButton(float x, float y, float width, float height, String text) {
+        this.setColor(BUTTON_BORDER_COLOR);
+        this.rect(x, y, width, height);
+        this.setColor(BUTTON_COLOR);
+        this.rect(x + BUTTON_BORDER_WEIGHT,
+                  y + BUTTON_BORDER_WEIGHT,
+                  width - 2 * BUTTON_BORDER_WEIGHT,
+                  height - 2 * BUTTON_BORDER_WEIGHT);
+
     }
 }

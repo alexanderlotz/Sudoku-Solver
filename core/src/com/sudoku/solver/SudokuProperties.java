@@ -82,7 +82,27 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final Color GUI_BG_COLOR = Color.valueOf("ECDCB0");//Color.TEAL;
+    public static final Color GUI_BG_COLOR = Color.valueOf("EAD7D1");//Color.TEAL; ECDCB0
+    /**
+     *
+     */
+    public static final float GUI_BORDER = 5;
+    /**
+     *
+     */
+    public static final float BUTTON_HEIGHT = 40;
+    /**
+     *
+     */
+    public static final float BUTTON_BORDER_WEIGHT = 3;
+    /**
+     *
+     */
+    public static final Color BUTTON_COLOR = Color.valueOf("EAD7D1");
+    /**
+     *
+     */
+    public static final Color BUTTON_BORDER_COLOR = Color.valueOf("3C3C3C");
 
     public enum SudokuValues {
         /**
