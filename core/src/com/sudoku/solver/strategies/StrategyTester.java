@@ -15,20 +15,13 @@ public class StrategyTester {
     }
 
     public static void solve(Grid puzzle) { //break and redo marks if strategy found
-        //setCellMarks(puzzle);
-        /*for (int row = 0; row < SudokuProperties.BOARD_ROWS; row++) {
-            for (int col = 0; col < BOARD_COLUMNS; col++) {
-                if (puzzle.getBoard()[row][col].getValue() == SudokuValues.NONE.ordinal()) {
-                    NHSingles.parse(puzzle, row, col);
-                }
-            }
-        }*/
         NHSingles.parse(puzzle);
     }
 
     public static void setCellMarks(Grid puzzle) {
         for (int row = 0; row < SudokuProperties.BOARD_ROWS; row++) {
             for (int col = 0; col < BOARD_COLUMNS; col++) {
+                puzzle.getPuzzle()[row][col].clearCornerMarks();
                 if (puzzle.getPuzzle()[row][col].getValue() == SudokuValues.NONE.ordinal()) {
                     puzzle.getPuzzle()[row][col].addCornerMarks(new Integer[]{
                             SudokuValues.ONE.ordinal(),
