@@ -6,8 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-import static com.sudoku.solver.SudokuProperties.*;
+import static com.sudoku.solver.SudokuProperties.BUTTON_BORDER_COLOR;
 import static com.sudoku.solver.SudokuProperties.BUTTON_BORDER_WEIGHT;
+import static com.sudoku.solver.SudokuProperties.BUTTON_CLICK_COLOR;
+import static com.sudoku.solver.SudokuProperties.BUTTON_COLOR;
+import static com.sudoku.solver.SudokuProperties.GUI_BORDER;
 
 public class Button {
     /**
@@ -47,7 +50,7 @@ public class Button {
         screen.setColor(focused ? BUTTON_CLICK_COLOR : BUTTON_BORDER_COLOR);
         screen.rect(position.x, position.y, width, height);
         screen.setColor(BUTTON_COLOR);
-        float border = focused ? 2 * BUTTON_BORDER_WEIGHT :BUTTON_BORDER_WEIGHT;
+        float border = focused ? 2 * BUTTON_BORDER_WEIGHT : BUTTON_BORDER_WEIGHT;
         screen.rect(position.x + border,
                 position.y + border,
                 width - 2 * border,

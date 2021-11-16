@@ -10,7 +10,19 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sudoku.solver.board.Grid;
 import com.sudoku.solver.gui.GUI;
 
-import static com.sudoku.solver.SudokuProperties.*;
+import static com.sudoku.solver.SudokuProperties.BOARD_COLUMNS;
+import static com.sudoku.solver.SudokuProperties.BOARD_ROWS;
+import static com.sudoku.solver.SudokuProperties.CELL_SIZE;
+import static com.sudoku.solver.SudokuProperties.DEFAULT_ERROR_COLOR;
+import static com.sudoku.solver.SudokuProperties.DEFAULT_FONT_COLOR;
+import static com.sudoku.solver.SudokuProperties.DEFAULT_OUTLINE_COLOR;
+import static com.sudoku.solver.SudokuProperties.GUI_FONT_COLOR;
+import static com.sudoku.solver.SudokuProperties.GUI_FONT_SCALE;
+import static com.sudoku.solver.SudokuProperties.LARGE_FONT_SCALE;
+import static com.sudoku.solver.SudokuProperties.MarkingPosition;
+import static com.sudoku.solver.SudokuProperties.NUM_SUB_CELLS;
+import static com.sudoku.solver.SudokuProperties.OUTLINE_WEIGHT;
+import static com.sudoku.solver.SudokuProperties.SMALL_FONT_SCALE;
 
 public class SudokuRenderer extends ShapeRenderer {
     /**
@@ -54,8 +66,6 @@ public class SudokuRenderer extends ShapeRenderer {
         //https://github.com/libgdx/libgdx/wiki/Gdx-freetype
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Montserrat-Bold.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        //parameter.kerning = false;
-
 
         parameter.size = SudokuProperties.HI_RES_FONT_SIZE;
         fontSmall = generator.generateFont(parameter);
@@ -69,7 +79,7 @@ public class SudokuRenderer extends ShapeRenderer {
         guiFont.setColor(GUI_FONT_COLOR);
         guiFont.getData().setScale(GUI_FONT_SCALE);
     }
-//FIX TEXT RENDERING
+
     public void drawGrid(GUI gui) {
         //Draw cell
         for (int row = 0; row < BOARD_ROWS; row++) {
@@ -77,7 +87,6 @@ public class SudokuRenderer extends ShapeRenderer {
                 this.setColor((puzzle.getPuzzle()[row][col].isValid())
                         ? puzzle.getPuzzle()[row][col].getColoring()
                         : DEFAULT_ERROR_COLOR);
-//                this.rect(worldCoord.x, worldCoord.y, CELL_SIZE, CELL_SIZE);
                 this.rect(Grid.getScreenCoord(row), Grid.getScreenCoord(col), CELL_SIZE, CELL_SIZE);
             }
         }
@@ -91,20 +100,6 @@ public class SudokuRenderer extends ShapeRenderer {
         //Draw Text
         batch.begin();
 
-
-        /*FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Lato-Regular.ttf"));
-        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.kerning = false;
-
-        parameter.size = (40 * 3) / 10;
-        fontSmall = generator.generateFont(parameter); // font size 12 pixels
-        parameter.size *= 3;
-        fontLarge = generator.generateFont(parameter); // font size 12 pixels
-        generator.dispose();
-        */
-
-
-
         for (int row = 0; row < BOARD_ROWS; row++) {
             for (int col = 0; col < BOARD_COLUMNS; col++) {
                 this.setColor(puzzle.getPuzzle()[row][col].getColoring());
@@ -115,12 +110,8 @@ public class SudokuRenderer extends ShapeRenderer {
                 }
             }
         }
-//        SpriteBatch guiBatch = new SpriteBatch();
-//        guiBatch.setProjectionMatrix(camera.combined);
         gui.drawText(this, batch, guiFont);
         batch.end();
-        //fontSmall.dispose();
-        //fontLarge.dispose();
     }
 
     public void drawFocusOutline() { //weight should always be odd.
@@ -214,7 +205,6 @@ public class SudokuRenderer extends ShapeRenderer {
                     fontY = Grid.getScreenCoord(col) + (1 * sideLength) + (sideLength + layout.height) / 2;
                     break;
                 default:
-                    //markingIndex++;
             }
             fontSmall.draw(batch, layout, fontX, fontY);
             markingIndex++;

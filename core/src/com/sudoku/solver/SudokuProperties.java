@@ -70,7 +70,7 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final Color DEFAULT_FONT_COLOR = Color.valueOf("087E8B"); //087E8B
+    public static final Color DEFAULT_FONT_COLOR = Color.valueOf("087E8B");
     /**
      *
      */
@@ -90,7 +90,7 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final Color GUI_BG_COLOR = Color.valueOf("087E8B");//8E936D");
+    public static final Color GUI_BG_COLOR = Color.valueOf("087E8B");
     /**
      *
      */

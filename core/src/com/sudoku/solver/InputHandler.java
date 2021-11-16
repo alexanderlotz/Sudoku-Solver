@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import com.sudoku.solver.SudokuProperties.SudokuValues;
 import com.sudoku.solver.gui.Button;
 import com.sudoku.solver.gui.GUI;
-import com.sudoku.solver.strategies.StrategyTester;
 
 import static com.sudoku.solver.SudokuProperties.BOARD_COLUMNS;
 
@@ -48,6 +47,7 @@ public class InputHandler {
      *
      * @param puzzle
      * @param camera
+     * @param gui
      */
     public InputHandler(Grid puzzle, OrthographicCamera camera, GUI gui) {
         this.puzzle = puzzle;
@@ -81,14 +81,13 @@ public class InputHandler {
             y = Grid.getGridCoord((int) worldCoord.y);
             if (x >= BOARD_COLUMNS) {
                 puzzle.clearFocus();
-                if(!mouseHeld) {
+                if (!mouseHeld) {
                     for (Button button : gui.getButtonList()) {
                         if (button.contains(new Vector2(worldCoord.x, worldCoord.y))) {
                             button.click();
                         }
                     }
                 }
-                mouseHeld = true;
             } else {
                 primeFocus = Grid.enforceBounds(new Point(x, y));
 
@@ -109,9 +108,9 @@ public class InputHandler {
                         puzzle.getPuzzle()[primeFocus.x][primeFocus.y].setFocused(true);
                     }
                 }
-                mouseHeld = true;
             }
-        } else{
+            mouseHeld = true;
+        } else {
             setCells.clear();
             mouseHeld = false;
         }

@@ -1,18 +1,16 @@
 package com.sudoku.solver.gui;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-import static com.sudoku.solver.SudokuProperties.*;
-import static com.sudoku.solver.SudokuProperties.BUTTON_BORDER_WEIGHT;
+import static com.sudoku.solver.SudokuProperties.BOARD_BG_COLOR;
+import static com.sudoku.solver.SudokuProperties.GUI_BORDER;
 
-public class SectionBreak {/**
- *
- */
-private Vector2 position;
+public class SectionBreak {
+    /**
+     *
+     */
+    private Vector2 position;
     /**
      *
      */

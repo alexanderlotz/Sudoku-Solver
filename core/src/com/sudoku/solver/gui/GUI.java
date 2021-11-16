@@ -1,17 +1,13 @@
 package com.sudoku.solver.gui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.sudoku.solver.SudokuProperties;
 
 import java.util.ArrayList;
 
-import static com.sudoku.solver.SudokuProperties.*;
-import static com.sudoku.solver.SudokuProperties.BUTTON_BORDER_WEIGHT;
+import static com.sudoku.solver.SudokuProperties.GUI_BG_COLOR;
 
 public class GUI {
     /**
@@ -70,16 +66,16 @@ public class GUI {
     public void drawLayout(ShapeRenderer screen) {
         screen.setColor(GUI_BG_COLOR);
         screen.rect(position.x, position.y, width, height);
-        for(Button button : buttonList) {
+        for (Button button : buttonList) {
             button.draw(screen);
         }
-        for (SectionBreak sectionBreak : sectionBreakList){
+        for (SectionBreak sectionBreak : sectionBreakList) {
             sectionBreak.draw(screen);
         }
     }
 
     public void drawText(ShapeRenderer screen, SpriteBatch textBatch, BitmapFont font) {
-        for(Button button : buttonList) {
+        for (Button button : buttonList) {
             button.displayText(screen, textBatch, font);
         }
     }

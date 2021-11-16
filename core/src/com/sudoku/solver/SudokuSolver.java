@@ -3,17 +3,17 @@ package com.sudoku.solver;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sudoku.solver.board.Grid;
 import com.sudoku.solver.gui.Button;
-import com.sudoku.solver.gui.Clickable;
 import com.sudoku.solver.gui.GUI;
 import com.sudoku.solver.gui.SectionBreak;
 import com.sudoku.solver.strategies.StrategyTester;
 
-import static com.sudoku.solver.SudokuProperties.*;
+import static com.sudoku.solver.SudokuProperties.BOARD_BG_COLOR;
 import static com.sudoku.solver.SudokuProperties.BUTTON_HEIGHT;
+import static com.sudoku.solver.SudokuProperties.CAMERA_BORDER;
+import static com.sudoku.solver.SudokuProperties.GUI_BORDER;
 
 public class SudokuSolver extends ApplicationAdapter {
     /**
@@ -55,10 +55,6 @@ public class SudokuSolver extends ApplicationAdapter {
         initGUI();
 
         inputHandler = new InputHandler(puzzle, camera, gui);
-//        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-//        style.font = new BitmapFont();
-//
-//        button = new TextButton("Test", style);
     }
 
     @Override
@@ -96,7 +92,9 @@ public class SudokuSolver extends ApplicationAdapter {
                 loadButton.getPosition().y + BUTTON_HEIGHT,
                 gui.getWidth(), BUTTON_HEIGHT, "Save");
 
-        SectionBreak stateManagerBreak = new SectionBreak(gui.getPosition().x, saveButton.getPosition().y + BUTTON_HEIGHT, gui.getWidth());
+        SectionBreak stateManagerBreak = new SectionBreak(gui.getPosition().x,
+                                                          saveButton.getPosition().y + BUTTON_HEIGHT,
+                                                          gui.getWidth());
 
         Button markButton = new Button(gui.getPosition().x,
                 stateManagerBreak.getPosition().y + GUI_BORDER,
@@ -110,7 +108,9 @@ public class SudokuSolver extends ApplicationAdapter {
                 solveButton.getPosition().y + BUTTON_HEIGHT,
                 gui.getWidth(), BUTTON_HEIGHT, "Reset");
 
-        SectionBreak boardControlBreak = new SectionBreak(gui.getPosition().x, resetButton.getPosition().y + BUTTON_HEIGHT, gui.getWidth());
+        SectionBreak boardControlBreak = new SectionBreak(gui.getPosition().x,
+                                                          resetButton.getPosition().y + BUTTON_HEIGHT,
+                                                          gui.getWidth());
 
         Button pencilButton = new Button(gui.getPosition().x,
                 boardControlBreak.getPosition().y + GUI_BORDER,
