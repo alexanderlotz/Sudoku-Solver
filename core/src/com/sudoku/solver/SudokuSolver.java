@@ -2,6 +2,7 @@ package com.sudoku.solver;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sudoku.solver.board.Grid;
@@ -59,7 +60,7 @@ public class SudokuSolver extends ApplicationAdapter {
 
     @Override
     public void render() {
-        ScreenUtils.clear(BOARD_BG_COLOR);
+        ScreenUtils.clear(Color.valueOf(BOARD_BG_COLOR));
 
         //INPUT HANDLING
         inputHandler.process();
@@ -121,7 +122,7 @@ public class SudokuSolver extends ApplicationAdapter {
                 gui.getWidth(), BUTTON_HEIGHT, "Values");
         valueButton.setFocused(true);
 
-        quitButton.setClickEvent(() -> System.exit(0));
+        quitButton.setClickEvent(() -> Gdx.app.exit());
         saveButton.setClickEvent(() -> puzzle.writeToString());
         loadButton.setClickEvent(() -> puzzle.readFromString());
         markButton.setClickEvent(() -> StrategyTester.setCellMarks(puzzle));

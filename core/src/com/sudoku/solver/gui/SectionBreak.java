@@ -1,5 +1,6 @@
 package com.sudoku.solver.gui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
@@ -27,7 +28,7 @@ public class SectionBreak {
     }
 
     public void draw(ShapeRenderer screen) {
-        screen.setColor(BOARD_BG_COLOR);
+        screen.setColor(Color.valueOf(BOARD_BG_COLOR));
         screen.rect(position.x, position.y, width, height);
     }
 

@@ -1,6 +1,7 @@
 package com.sudoku.solver;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -72,11 +73,11 @@ public class SudokuRenderer extends ShapeRenderer {
         fontLarge = generator.generateFont(parameter);
         guiFont = generator.generateFont(parameter);
         generator.dispose();
-        fontSmall.setColor(DEFAULT_FONT_COLOR);
+        fontSmall.setColor(Color.valueOf(DEFAULT_FONT_COLOR));
         fontSmall.getData().setScale(SMALL_FONT_SCALE);
-        fontLarge.setColor(DEFAULT_FONT_COLOR);
+        fontLarge.setColor(Color.valueOf(DEFAULT_FONT_COLOR));
         fontLarge.getData().setScale(LARGE_FONT_SCALE);
-        guiFont.setColor(GUI_FONT_COLOR);
+        guiFont.setColor(Color.valueOf(GUI_FONT_COLOR));
         guiFont.getData().setScale(GUI_FONT_SCALE);
     }
 
@@ -86,7 +87,7 @@ public class SudokuRenderer extends ShapeRenderer {
             for (int col = 0; col < BOARD_COLUMNS; col++) {
                 this.setColor((puzzle.getPuzzle()[row][col].isValid())
                         ? puzzle.getPuzzle()[row][col].getColoring()
-                        : DEFAULT_ERROR_COLOR);
+                        : Color.valueOf(DEFAULT_ERROR_COLOR));
                 this.rect(Grid.getScreenCoord(row), Grid.getScreenCoord(col), CELL_SIZE, CELL_SIZE);
             }
         }
@@ -116,7 +117,7 @@ public class SudokuRenderer extends ShapeRenderer {
 
     public void drawFocusOutline() { //weight should always be odd.
         int offset = (OUTLINE_WEIGHT / 2 + 1);
-        this.setColor(DEFAULT_OUTLINE_COLOR);
+        this.setColor(Color.valueOf(DEFAULT_OUTLINE_COLOR));
 
         for (int row = 0; row < BOARD_ROWS; row++) {
             for (int col = 0; col < BOARD_COLUMNS; col++) {

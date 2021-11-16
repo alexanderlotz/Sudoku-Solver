@@ -1,5 +1,6 @@
 package com.sudoku.solver.gui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -64,7 +65,7 @@ public class GUI {
     }
 
     public void drawLayout(ShapeRenderer screen) {
-        screen.setColor(GUI_BG_COLOR);
+        screen.setColor(Color.valueOf(GUI_BG_COLOR));
         screen.rect(position.x, position.y, width, height);
         for (Button button : buttonList) {
             button.draw(screen);

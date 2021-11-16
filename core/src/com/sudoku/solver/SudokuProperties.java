@@ -1,7 +1,5 @@
 package com.sudoku.solver;
 
-import com.badlogic.gdx.graphics.Color;
-
 public final class SudokuProperties {
     /**
      *
@@ -46,19 +44,19 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final Color BOARD_BG_COLOR = Color.valueOf("3C3C3C");
+    public static final String BOARD_BG_COLOR = "3C3C3C";
     /**
      *
      */
-    public static final Color DEFAULT_CELL_COLOR = Color.valueOf("F5F5F5");
+    public static final String DEFAULT_CELL_COLOR = "F5F5F5";
     /**
      *
      */
-    public static final Color DEFAULT_ERROR_COLOR = Color.valueOf("FF5A5F");
+    public static final String DEFAULT_ERROR_COLOR = "FF5A5F";
     /**
      *
      */
-    public static final Color DEFAULT_OUTLINE_COLOR = Color.valueOf("087E8B");
+    public static final String DEFAULT_OUTLINE_COLOR = "087E8B";
     /**
      *
      */
@@ -70,7 +68,7 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final Color DEFAULT_FONT_COLOR = Color.valueOf("087E8B");
+    public static final String DEFAULT_FONT_COLOR = "087E8B";
     /**
      *
      */
@@ -82,7 +80,7 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final Color GUI_FONT_COLOR = Color.valueOf("087E8B");
+    public static final String GUI_FONT_COLOR = "087E8B";
     /**
      *
      */
@@ -90,7 +88,7 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final Color GUI_BG_COLOR = Color.valueOf("087E8B");
+    public static final String GUI_BG_COLOR = "087E8B";
     /**
      *
      */
@@ -106,15 +104,15 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final Color BUTTON_COLOR = Color.valueOf("F9A03F");
+    public static final String BUTTON_COLOR = "F9A03F";
     /**
      *
      */
-    public static final Color BUTTON_BORDER_COLOR = Color.valueOf("3C3C3C");
+    public static final String BUTTON_BORDER_COLOR = "3C3C3C";
     /**
      *
      */
-    public static final Color BUTTON_CLICK_COLOR = Color.valueOf("F5F5F5");
+    public static final String BUTTON_CLICK_COLOR = "F5F5F5";
 
     public enum SudokuValues {
         /**

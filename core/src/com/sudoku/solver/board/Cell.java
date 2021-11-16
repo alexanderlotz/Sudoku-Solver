@@ -42,7 +42,7 @@ public class Cell {
     public Cell() {
         centerMarks = new int[TOTAL_VALUES];
         cornerMarks = new HashSet<Integer>();
-        coloring = DEFAULT_CELL_COLOR;
+        coloring = Color.valueOf(DEFAULT_CELL_COLOR);
         value = 0;
         valid = true;
         focused = false;

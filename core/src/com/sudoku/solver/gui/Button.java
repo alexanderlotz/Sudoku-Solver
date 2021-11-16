@@ -1,5 +1,6 @@
 package com.sudoku.solver.gui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -47,9 +48,10 @@ public class Button {
     }
 
     public void draw(ShapeRenderer screen) {
-        screen.setColor(focused ? BUTTON_CLICK_COLOR : BUTTON_BORDER_COLOR);
+        screen.setColor(focused ? Color.valueOf(BUTTON_CLICK_COLOR)
+                                : Color.valueOf(BUTTON_BORDER_COLOR));
         screen.rect(position.x, position.y, width, height);
-        screen.setColor(BUTTON_COLOR);
+        screen.setColor(Color.valueOf(BUTTON_COLOR));
         float border = focused ? 2 * BUTTON_BORDER_WEIGHT : BUTTON_BORDER_WEIGHT;
         screen.rect(position.x + border,
                 position.y + border,
