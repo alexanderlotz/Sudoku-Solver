@@ -3,6 +3,7 @@ package com.sudoku.solver.board;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.TreeSet;
@@ -19,7 +20,7 @@ public class Grid {
     /**
      *
      */
-    private Cell[][] board;
+    private Cell[][] puzzle;
     /**
      *
      */
@@ -33,18 +34,18 @@ public class Grid {
      *
      */
     public Grid() {
-        board = new Cell[BOARD_ROWS][BOARD_COLUMNS];
+        puzzle = new Cell[BOARD_ROWS][BOARD_COLUMNS];
         for (int row = 0; row < BOARD_ROWS; row++) {
             for (int col = 0; col < BOARD_COLUMNS; col++) {
-                board[row][col] = new Cell();
+                puzzle[row][col] = new Cell();
             }
         }
         width = (BOARD_COLUMNS * CELL_SIZE) + (INNER_SQUARE_SIZE + 1) * INNER_SQUARE_BORDER;
         height = (BOARD_ROWS * CELL_SIZE) + (INNER_SQUARE_SIZE + 1) * INNER_SQUARE_BORDER;
     }
 
-    public Cell[][] getBoard() {
-        return board;
+    public Cell[][] getPuzzle() {
+        return puzzle;
     }
 
     public void checkValid() { //make into bool
@@ -53,17 +54,17 @@ public class Grid {
         //Clear cells
         for (int row = 0; row < BOARD_ROWS; row++) {
             for (int col = 0; col < BOARD_COLUMNS; col++) {
-                board[row][col].setValid(true);
+                puzzle[row][col].setValid(true);
             }
         }
 
         //Vaidate rows
         for (int col = 0; col < BOARD_ROWS; col++) {
             for (int row = 0; row < BOARD_COLUMNS; row++) {
-                if (board[row][col].getValue() != 0 && !validNums.add(board[row][col].getValue())) {
-                    for (int i = 0; i < board[col].length; i++) {
-                        if (board[i][col].getValue() == board[row][col].getValue()) {
-                            board[i][col].setValid(false);
+                if (puzzle[row][col].getValue() != 0 && !validNums.add(puzzle[row][col].getValue())) {
+                    for (int i = 0; i < puzzle[col].length; i++) {
+                        if (puzzle[i][col].getValue() == puzzle[row][col].getValue()) {
+                            puzzle[i][col].setValid(false);
                         }
                     }
                     break;
@@ -75,10 +76,10 @@ public class Grid {
         //Vaidate columns
         for (int row = 0; row < BOARD_ROWS; row++) {
             for (int col = 0; col < BOARD_COLUMNS; col++) {
-                if (board[row][col].getValue() != 0 && !validNums.add(board[row][col].getValue())) {
-                    for (int i = 0; i < board[row].length; i++) {
-                        if (board[row][i].getValue() == board[row][col].getValue()) {
-                            board[row][i].setValid(false);
+                if (puzzle[row][col].getValue() != 0 && !validNums.add(puzzle[row][col].getValue())) {
+                    for (int i = 0; i < puzzle[row].length; i++) {
+                        if (puzzle[row][i].getValue() == puzzle[row][col].getValue()) {
+                            puzzle[row][i].setValid(false);
                         }
                     }
                     break;
@@ -93,13 +94,13 @@ public class Grid {
                 int innerOffset = innerSquare % INNER_SQUARE_SIZE;
                 int innerRow = INNER_SQUARE_SIZE * (innerOffset) + cell % INNER_SQUARE_SIZE;
                 int innerCol = (innerSquare - (innerOffset)) + cell / INNER_SQUARE_SIZE;
-                if (board[innerRow][innerCol].getValue() != 0
-                        && !validNums.add(board[innerRow][innerCol].getValue())) {
-                    for (int i = 0; i < board[innerSquare].length; i++) {
+                if (puzzle[innerRow][innerCol].getValue() != 0
+                        && !validNums.add(puzzle[innerRow][innerCol].getValue())) {
+                    for (int i = 0; i < puzzle[innerSquare].length; i++) {
                         int checkRow = INNER_SQUARE_SIZE * (innerOffset) + i % INNER_SQUARE_SIZE;
                         int checkCol = (innerSquare - (innerOffset)) + i / INNER_SQUARE_SIZE;
-                        if (board[checkRow][checkCol].getValue() == board[innerRow][innerCol].getValue()) {
-                            board[checkRow][checkCol].setValid(false);
+                        if (puzzle[checkRow][checkCol].getValue() == puzzle[innerRow][innerCol].getValue()) {
+                            puzzle[checkRow][checkCol].setValid(false);
                         }
                     }
                     break;
@@ -137,12 +138,22 @@ public class Grid {
         String boardString = "";
         for (int col = BOARD_COLUMNS - 1; col >= 0; col--) {
             for (int row = 0; row < BOARD_ROWS; row++) {
-                boardString += board[row][col].getValue();
+                boardString += puzzle[row][col].getValue();
             }
         }
-        System.out.println(boardString);
+        StringSelection selection = new StringSelection(boardString);
+        Toolkit.getDefaultToolkit()
+                .getSystemClipboard().setContents(selection, selection);
     }
 
+    public void reset() {
+        for (int row = 0; row < BOARD_ROWS; row++) {
+            for (int col = 0; col < BOARD_COLUMNS; col++) {
+                puzzle[row][col].clearCornerMarks();
+                puzzle[row][col].setValue(0);
+            }
+        }
+    }
     //public void readFromString(String boardString) {
     public void readFromString() {
         //boardString = boardString.replace(".","0");
@@ -150,11 +161,10 @@ public class Grid {
             String boardString = (String) Toolkit.getDefaultToolkit()
                     .getSystemClipboard().getData(DataFlavor.stringFlavor);
             if (boardString.length() == BOARD_ROWS * BOARD_COLUMNS && boardString.matches("[0-9]+")) {
+                reset();
                 for (int row = 0; row < BOARD_ROWS; row++) {
                     for (int col = 0; col < BOARD_COLUMNS; col++) {
-                        board[row][col].clearCornerMarks();
-                        board[row][col].setValue(0);
-                        board[row][col].setValue(Character.getNumericValue(boardString
+                        puzzle[row][col].setValue(Character.getNumericValue(boardString
                                 .charAt(row + ((BOARD_COLUMNS - 1) - col) * BOARD_COLUMNS)));
                     }
                 }
@@ -167,19 +177,19 @@ public class Grid {
     public void updateCell(int row, int col, int mark) {
         //Analyze rows
         for (int checkRow = 0; checkRow < BOARD_ROWS; checkRow++) {
-             board[checkRow][col].removeCornerMark(mark);
+             puzzle[checkRow][col].removeCornerMark(mark);
         }
 
         //Analyze columns
         for (int checkCol = 0; checkCol < BOARD_COLUMNS; checkCol++) {
-            board[row][checkCol].removeCornerMark(mark);
+            puzzle[row][checkCol].removeCornerMark(mark);
         }
 
         //Analyze inner squares
         for (int checkInner = 0; checkInner < INNER_CELLS; checkInner++) {
             int checkRow = (row - row % INNER_SQUARE_SIZE) + checkInner % INNER_SQUARE_SIZE;
             int checkCol = (col - col % INNER_SQUARE_SIZE) + checkInner / INNER_SQUARE_SIZE;
-            board[checkRow][checkCol].removeCornerMark(mark);
+            puzzle[checkRow][checkCol].removeCornerMark(mark);
         }
     }
 
@@ -196,5 +206,13 @@ public class Grid {
             boundedVector.y = 0;
         }
         return boundedVector;
+    }
+
+    public void clearFocus() {
+        for (int row = 0; row < BOARD_ROWS; row++) {
+            for (int col = 0; col < BOARD_COLUMNS; col++) {
+                puzzle[row][col].setFocused(false);
+            }
+        }
     }
 }

@@ -66,7 +66,7 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final int HI_RES_FONT_SIZE = 500;
+    public static final int HI_RES_FONT_SIZE = 100;
     /**
      *
      */
@@ -74,11 +74,19 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final float SMALL_FONT_SCALE = 0.03f;
+    public static final float SMALL_FONT_SCALE = 0.15f;
     /**
      *
      */
-    public static final float LARGE_FONT_SCALE = 0.08f;
+    public static final float LARGE_FONT_SCALE = 0.4f;
+    /**
+     *
+     */
+    public static final Color GUI_FONT_COLOR = Color.valueOf("087E8B");
+    /**
+     *
+     */
+    public static final float GUI_FONT_SCALE = 0.25f;
     /**
      *
      */
@@ -86,7 +94,7 @@ public final class SudokuProperties {
     /**
      *
      */
-    public static final float GUI_BORDER = 5;
+    public static final float GUI_BORDER = 5.5f;
     /**
      *
      */

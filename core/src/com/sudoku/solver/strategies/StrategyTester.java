@@ -29,8 +29,8 @@ public class StrategyTester {
     public static void setCellMarks(Grid puzzle) {
         for (int row = 0; row < SudokuProperties.BOARD_ROWS; row++) {
             for (int col = 0; col < BOARD_COLUMNS; col++) {
-                if (puzzle.getBoard()[row][col].getValue() == SudokuValues.NONE.ordinal()) {
-                    puzzle.getBoard()[row][col].addCornerMarks(new Integer[]{
+                if (puzzle.getPuzzle()[row][col].getValue() == SudokuValues.NONE.ordinal()) {
+                    puzzle.getPuzzle()[row][col].addCornerMarks(new Integer[]{
                             SudokuValues.ONE.ordinal(),
                             SudokuValues.TWO.ordinal(),
                             SudokuValues.THREE.ordinal(),
@@ -43,23 +43,23 @@ public class StrategyTester {
                     });
                     //Analyze rows
                     for (int checkRow = 0; checkRow < BOARD_ROWS; checkRow++) {
-                        if (puzzle.getBoard()[checkRow][col].getValue() != SudokuValues.NONE.ordinal()) {
-                            puzzle.getBoard()[row][col].removeCornerMark(puzzle.getBoard()[checkRow][col].getValue());
+                        if (puzzle.getPuzzle()[checkRow][col].getValue() != SudokuValues.NONE.ordinal()) {
+                            puzzle.getPuzzle()[row][col].removeCornerMark(puzzle.getPuzzle()[checkRow][col].getValue());
                         }
                     }
                     //Analyze columns
                     for (int checkCol = 0; checkCol < BOARD_COLUMNS; checkCol++) {
-                        if (puzzle.getBoard()[row][checkCol].getValue() != SudokuValues.NONE.ordinal()) {
-                            puzzle.getBoard()[row][col].removeCornerMark(puzzle.getBoard()[row][checkCol].getValue());
+                        if (puzzle.getPuzzle()[row][checkCol].getValue() != SudokuValues.NONE.ordinal()) {
+                            puzzle.getPuzzle()[row][col].removeCornerMark(puzzle.getPuzzle()[row][checkCol].getValue());
                         }
                     }
                     //Analyze inner squares
                     for (int checkInner = 0; checkInner < INNER_CELLS; checkInner++) {
                         int checkRow = (row - row % INNER_SQUARE_SIZE) + checkInner % INNER_SQUARE_SIZE;
                         int checkCol = (col - col % INNER_SQUARE_SIZE) + checkInner / INNER_SQUARE_SIZE;
-                        if (puzzle.getBoard()[checkRow][checkCol].getValue() != SudokuValues.NONE.ordinal()) {
-                            puzzle.getBoard()[row][col]
-                                    .removeCornerMark(puzzle.getBoard()[checkRow][checkCol].getValue());
+                        if (puzzle.getPuzzle()[checkRow][checkCol].getValue() != SudokuValues.NONE.ordinal()) {
+                            puzzle.getPuzzle()[row][col]
+                                    .removeCornerMark(puzzle.getPuzzle()[checkRow][checkCol].getValue());
                         }
                     }
                 }

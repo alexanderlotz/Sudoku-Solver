@@ -20,7 +20,7 @@ public class NHSingles {
 
         for (int row = 0; row < BOARD_ROWS; row++) {
             for (int col = 0; col < BOARD_COLUMNS; col++) {
-                checkedCell = puzzle.getBoard()[row][col];
+                checkedCell = puzzle.getPuzzle()[row][col];
                 cellMarkings = checkedCell.getCornerMarks();
 
                 if (checkedCell.getValue() == SudokuValues.NONE.ordinal()) {
@@ -36,7 +36,7 @@ public class NHSingles {
                         matched = true;
                         for (int checkRow = 0; checkRow < BOARD_ROWS; checkRow++) {
                             if (checkRow != row) {
-                                if (puzzle.getBoard()[checkRow][col].getCornerMarks().contains(mark)) {
+                                if (puzzle.getPuzzle()[checkRow][col].getCornerMarks().contains(mark)) {
                                     matched = false;
                                     checkRow = BOARD_ROWS;
                                 }
@@ -53,7 +53,7 @@ public class NHSingles {
                         matched = true;
                         for (int checkCol = 0; checkCol < BOARD_COLUMNS; checkCol++) {
                             if (checkCol != col) {
-                                if (puzzle.getBoard()[row][checkCol].getCornerMarks().contains(mark)) {
+                                if (puzzle.getPuzzle()[row][checkCol].getCornerMarks().contains(mark)) {
                                     matched = false;
                                     checkCol = BOARD_COLUMNS;
                                 }
@@ -72,7 +72,7 @@ public class NHSingles {
                             int checkRow = (row - row % INNER_SQUARE_SIZE) + checkInner % INNER_SQUARE_SIZE;
                             int checkCol = (col - col % INNER_SQUARE_SIZE) + checkInner / INNER_SQUARE_SIZE;
                             if (checkRow != row || checkCol != col) {
-                                if (puzzle.getBoard()[checkRow][checkCol].getCornerMarks().contains(mark)) {
+                                if (puzzle.getPuzzle()[checkRow][checkCol].getCornerMarks().contains(mark)) {
                                     matched = false;
                                     checkInner = INNER_CELLS;
                                 }

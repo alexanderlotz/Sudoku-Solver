@@ -3,6 +3,7 @@ package com.sudoku.solver;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.sudoku.solver.board.Cell;
 import com.sudoku.solver.board.Grid;
@@ -11,7 +12,11 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import com.sudoku.solver.SudokuProperties.SudokuValues;
+import com.sudoku.solver.gui.Button;
+import com.sudoku.solver.gui.GUI;
 import com.sudoku.solver.strategies.StrategyTester;
+
+import static com.sudoku.solver.SudokuProperties.BOARD_COLUMNS;
 
 public class InputHandler {
     /**
@@ -34,18 +39,23 @@ public class InputHandler {
      *
      */
     private Point primeFocus;
+    /**
+     *
+     */
+    private GUI gui;
 
     /**
      *
      * @param puzzle
      * @param camera
      */
-    public InputHandler(Grid puzzle, OrthographicCamera camera) {
+    public InputHandler(Grid puzzle, OrthographicCamera camera, GUI gui) {
         this.puzzle = puzzle;
         mouseHeld = false;
         setCells = new ArrayList<>();
         this.camera = camera;
         primeFocus = new Point(0, 0);
+        this.gui = gui;
     }
 
     /**
@@ -67,35 +77,41 @@ public class InputHandler {
             int y = Gdx.input.getY();
             Vector3 worldCoord = camera.unproject(new Vector3(x, y, 0f));
 
-            //x = (int) ((worldCoord.x - worldCoord.x % 41) / 41);
             x = Grid.getGridCoord((int) worldCoord.x);
-            //y = (int) ((worldCoord.y - worldCoord.y % 41) / 41);
             y = Grid.getGridCoord((int) worldCoord.y);
-            primeFocus = Grid.enforceBounds(new Point(x, y));
-
-            if (!(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
-                    || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT))
-                    && !mouseHeld) {
-                for (int i = 0; i < puzzle.getBoard().length; i++) {
-                    for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                        puzzle.getBoard()[i][j].setFocused(false);
+            if (x >= BOARD_COLUMNS) {
+                puzzle.clearFocus();
+                if(!mouseHeld) {
+                    for (Button button : gui.getButtonList()) {
+                        if (button.contains(new Vector2(worldCoord.x, worldCoord.y))) {
+                            button.click();
+                        }
                     }
                 }
-            }
+                mouseHeld = true;
+            } else {
+                primeFocus = Grid.enforceBounds(new Point(x, y));
 
-
-            if (!setCells.contains(puzzle.getBoard()[primeFocus.x][primeFocus.y])) {
-                setCells.add(puzzle.getBoard()[primeFocus.x][primeFocus.y]);
-                if ((Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
-                        || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT))) {
-                    puzzle.getBoard()[primeFocus.x][primeFocus.y]
-                            .setFocused(!puzzle.getBoard()[primeFocus.x][primeFocus.y].isFocused());
-                } else {
-                    puzzle.getBoard()[primeFocus.x][primeFocus.y].setFocused(true);
+                if (!(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
+                        || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT))
+                        && !mouseHeld) {
+                    puzzle.clearFocus();
                 }
+
+
+                if (!setCells.contains(puzzle.getPuzzle()[primeFocus.x][primeFocus.y])) {
+                    setCells.add(puzzle.getPuzzle()[primeFocus.x][primeFocus.y]);
+                    if ((Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
+                            || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT))) {
+                        puzzle.getPuzzle()[primeFocus.x][primeFocus.y]
+                                .setFocused(!puzzle.getPuzzle()[primeFocus.x][primeFocus.y].isFocused());
+                    } else {
+                        puzzle.getPuzzle()[primeFocus.x][primeFocus.y].setFocused(true);
+                    }
+                }
+                mouseHeld = true;
             }
-            mouseHeld = true;
-        } else {
+        } else{
             setCells.clear();
             mouseHeld = false;
         }
@@ -109,13 +125,13 @@ public class InputHandler {
                 || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)
                 || Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)
                 || Gdx.input.isKeyJustPressed(Input.Keys.FORWARD_DEL)) {
-            for (int i = 0; i < puzzle.getBoard().length; i++) {
-                for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                    if (puzzle.getBoard()[i][j].isFocused()) {
+            for (int i = 0; i < puzzle.getPuzzle().length; i++) {
+                for (int j = 0; j < puzzle.getPuzzle()[i].length; j++) {
+                    if (puzzle.getPuzzle()[i][j].isFocused()) {
                         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            puzzle.getBoard()[i][j].clearCornerMarks();
+                            puzzle.getPuzzle()[i][j].clearCornerMarks();
                         } else {
-                            puzzle.getBoard()[i][j].setValue(SudokuValues.NONE.ordinal());
+                            puzzle.getPuzzle()[i][j].setValue(SudokuValues.NONE.ordinal());
                         }
                     }
                 }
@@ -123,13 +139,13 @@ public class InputHandler {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)
                 || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
-            for (int i = 0; i < puzzle.getBoard().length; i++) {
-                for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                    if (puzzle.getBoard()[i][j].isFocused()) {
+            for (int i = 0; i < puzzle.getPuzzle().length; i++) {
+                for (int j = 0; j < puzzle.getPuzzle()[i].length; j++) {
+                    if (puzzle.getPuzzle()[i][j].isFocused()) {
                         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            puzzle.getBoard()[i][j].toggleCornerMark(SudokuValues.ONE.ordinal());
+                            puzzle.getPuzzle()[i][j].toggleCornerMark(SudokuValues.ONE.ordinal());
                         } else {
-                            puzzle.getBoard()[i][j].setValue(SudokuValues.ONE.ordinal());
+                            puzzle.getPuzzle()[i][j].setValue(SudokuValues.ONE.ordinal());
                         }
                     }
                 }
@@ -137,13 +153,13 @@ public class InputHandler {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)
                 || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_2)) {
-            for (int i = 0; i < puzzle.getBoard().length; i++) {
-                for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                    if (puzzle.getBoard()[i][j].isFocused()) {
+            for (int i = 0; i < puzzle.getPuzzle().length; i++) {
+                for (int j = 0; j < puzzle.getPuzzle()[i].length; j++) {
+                    if (puzzle.getPuzzle()[i][j].isFocused()) {
                         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            puzzle.getBoard()[i][j].toggleCornerMark(SudokuValues.TWO.ordinal());
+                            puzzle.getPuzzle()[i][j].toggleCornerMark(SudokuValues.TWO.ordinal());
                         } else {
-                            puzzle.getBoard()[i][j].setValue(SudokuValues.TWO.ordinal());
+                            puzzle.getPuzzle()[i][j].setValue(SudokuValues.TWO.ordinal());
                         }
                     }
                 }
@@ -151,13 +167,13 @@ public class InputHandler {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)
                 || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_3)) {
-            for (int i = 0; i < puzzle.getBoard().length; i++) {
-                for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                    if (puzzle.getBoard()[i][j].isFocused()) {
+            for (int i = 0; i < puzzle.getPuzzle().length; i++) {
+                for (int j = 0; j < puzzle.getPuzzle()[i].length; j++) {
+                    if (puzzle.getPuzzle()[i][j].isFocused()) {
                         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            puzzle.getBoard()[i][j].toggleCornerMark(SudokuValues.THREE.ordinal());
+                            puzzle.getPuzzle()[i][j].toggleCornerMark(SudokuValues.THREE.ordinal());
                         } else {
-                            puzzle.getBoard()[i][j].setValue(SudokuValues.THREE.ordinal());
+                            puzzle.getPuzzle()[i][j].setValue(SudokuValues.THREE.ordinal());
                         }
                     }
                 }
@@ -165,13 +181,13 @@ public class InputHandler {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)
                 || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
-            for (int i = 0; i < puzzle.getBoard().length; i++) {
-                for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                    if (puzzle.getBoard()[i][j].isFocused()) {
+            for (int i = 0; i < puzzle.getPuzzle().length; i++) {
+                for (int j = 0; j < puzzle.getPuzzle()[i].length; j++) {
+                    if (puzzle.getPuzzle()[i][j].isFocused()) {
                         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            puzzle.getBoard()[i][j].toggleCornerMark(SudokuValues.FOUR.ordinal());
+                            puzzle.getPuzzle()[i][j].toggleCornerMark(SudokuValues.FOUR.ordinal());
                         } else {
-                            puzzle.getBoard()[i][j].setValue(SudokuValues.FOUR.ordinal());
+                            puzzle.getPuzzle()[i][j].setValue(SudokuValues.FOUR.ordinal());
                         }
                     }
                 }
@@ -179,13 +195,13 @@ public class InputHandler {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)
                 || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_5)) {
-            for (int i = 0; i < puzzle.getBoard().length; i++) {
-                for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                    if (puzzle.getBoard()[i][j].isFocused()) {
+            for (int i = 0; i < puzzle.getPuzzle().length; i++) {
+                for (int j = 0; j < puzzle.getPuzzle()[i].length; j++) {
+                    if (puzzle.getPuzzle()[i][j].isFocused()) {
                         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            puzzle.getBoard()[i][j].toggleCornerMark(SudokuValues.FIVE.ordinal());
+                            puzzle.getPuzzle()[i][j].toggleCornerMark(SudokuValues.FIVE.ordinal());
                         } else {
-                            puzzle.getBoard()[i][j].setValue(SudokuValues.FIVE.ordinal());
+                            puzzle.getPuzzle()[i][j].setValue(SudokuValues.FIVE.ordinal());
                         }
                     }
                 }
@@ -193,13 +209,13 @@ public class InputHandler {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_6)
                 || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_6)) {
-            for (int i = 0; i < puzzle.getBoard().length; i++) {
-                for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                    if (puzzle.getBoard()[i][j].isFocused()) {
+            for (int i = 0; i < puzzle.getPuzzle().length; i++) {
+                for (int j = 0; j < puzzle.getPuzzle()[i].length; j++) {
+                    if (puzzle.getPuzzle()[i][j].isFocused()) {
                         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            puzzle.getBoard()[i][j].toggleCornerMark(SudokuValues.SIX.ordinal());
+                            puzzle.getPuzzle()[i][j].toggleCornerMark(SudokuValues.SIX.ordinal());
                         } else {
-                            puzzle.getBoard()[i][j].setValue(SudokuValues.SIX.ordinal());
+                            puzzle.getPuzzle()[i][j].setValue(SudokuValues.SIX.ordinal());
                         }
                     }
                 }
@@ -207,13 +223,13 @@ public class InputHandler {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_7)
                 || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_7)) {
-            for (int i = 0; i < puzzle.getBoard().length; i++) {
-                for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                    if (puzzle.getBoard()[i][j].isFocused()) {
+            for (int i = 0; i < puzzle.getPuzzle().length; i++) {
+                for (int j = 0; j < puzzle.getPuzzle()[i].length; j++) {
+                    if (puzzle.getPuzzle()[i][j].isFocused()) {
                         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            puzzle.getBoard()[i][j].toggleCornerMark(SudokuValues.SEVEN.ordinal());
+                            puzzle.getPuzzle()[i][j].toggleCornerMark(SudokuValues.SEVEN.ordinal());
                         } else {
-                            puzzle.getBoard()[i][j].setValue(SudokuValues.SEVEN.ordinal());
+                            puzzle.getPuzzle()[i][j].setValue(SudokuValues.SEVEN.ordinal());
                         }
                     }
                 }
@@ -221,13 +237,13 @@ public class InputHandler {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)
                 || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_8)) {
-            for (int i = 0; i < puzzle.getBoard().length; i++) {
-                for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                    if (puzzle.getBoard()[i][j].isFocused()) {
+            for (int i = 0; i < puzzle.getPuzzle().length; i++) {
+                for (int j = 0; j < puzzle.getPuzzle()[i].length; j++) {
+                    if (puzzle.getPuzzle()[i][j].isFocused()) {
                         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            puzzle.getBoard()[i][j].toggleCornerMark(SudokuValues.EIGHT.ordinal());
+                            puzzle.getPuzzle()[i][j].toggleCornerMark(SudokuValues.EIGHT.ordinal());
                         } else {
-                            puzzle.getBoard()[i][j].setValue(SudokuValues.EIGHT.ordinal());
+                            puzzle.getPuzzle()[i][j].setValue(SudokuValues.EIGHT.ordinal());
                         }
                     }
                 }
@@ -235,13 +251,13 @@ public class InputHandler {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)
                 || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_9)) {
-            for (int i = 0; i < puzzle.getBoard().length; i++) {
-                for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                    if (puzzle.getBoard()[i][j].isFocused()) {
+            for (int i = 0; i < puzzle.getPuzzle().length; i++) {
+                for (int j = 0; j < puzzle.getPuzzle()[i].length; j++) {
+                    if (puzzle.getPuzzle()[i][j].isFocused()) {
                         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            puzzle.getBoard()[i][j].toggleCornerMark(SudokuValues.NINE.ordinal());
+                            puzzle.getPuzzle()[i][j].toggleCornerMark(SudokuValues.NINE.ordinal());
                         } else {
-                            puzzle.getBoard()[i][j].setValue(SudokuValues.NINE.ordinal());
+                            puzzle.getPuzzle()[i][j].setValue(SudokuValues.NINE.ordinal());
                         }
                     }
                 }
@@ -274,30 +290,14 @@ public class InputHandler {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             System.exit(0);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            StrategyTester.solve(puzzle);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-            StrategyTester.setCellMarks(puzzle);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
-            puzzle.writeToString();
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.V)) {
-            puzzle.readFromString();
-        }
     }
 
     public void keyMove() {
         if (!(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
                 || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT))) {
-            for (int i = 0; i < puzzle.getBoard().length; i++) {
-                for (int j = 0; j < puzzle.getBoard()[i].length; j++) {
-                    puzzle.getBoard()[i][j].setFocused(false);
-                }
-            }
+            puzzle.clearFocus();
         }
-        puzzle.getBoard()[primeFocus.x][primeFocus.y].setFocused(true);
+        puzzle.getPuzzle()[primeFocus.x][primeFocus.y].setFocused(true);
     }
 }
 
