@@ -87,62 +87,67 @@ public class SudokuSolver extends ApplicationAdapter {
 
         Button quitButton = new Button(gui.getPosition().x, gui.getPosition().y,
                 gui.getWidth(), BUTTON_HEIGHT, "Quit");
-        gui.addButton(quitButton);
-//        gui.addButton(new Button(gui.getPosition().x + GUI_BORDER, gui.getPosition().y + GUI_BORDER,
-//                gui.getWidth() - 2 * GUI_BORDER, BUTTON_HEIGHT, ""));
-        quitButton.setClickEvent(() -> System.exit(0));
 
         Button loadButton = new Button(gui.getPosition().x,
                 quitButton.getPosition().y + BUTTON_HEIGHT,
                 gui.getWidth(), BUTTON_HEIGHT, "Load");
-        gui.addButton(loadButton);
-//        gui.addButton(new Button(gui.getPosition().x + GUI_BORDER, gui.getPosition().y + GUI_BORDER,
-//                gui.getWidth() - 2 * GUI_BORDER, BUTTON_HEIGHT, ""));
-        loadButton.setClickEvent(() -> puzzle.readFromString());
 
         Button saveButton = new Button(gui.getPosition().x,
                 loadButton.getPosition().y + BUTTON_HEIGHT,
                 gui.getWidth(), BUTTON_HEIGHT, "Save");
-        saveButton.setClickEvent(() -> puzzle.writeToString());
-        gui.addButton(saveButton);
 
         SectionBreak stateManagerBreak = new SectionBreak(gui.getPosition().x, saveButton.getPosition().y + BUTTON_HEIGHT, gui.getWidth());
-        gui.addSectionBreak(stateManagerBreak);
 
         Button markButton = new Button(gui.getPosition().x,
                 stateManagerBreak.getPosition().y + GUI_BORDER,
                 gui.getWidth(), BUTTON_HEIGHT, "Mark");
-        gui.addButton(markButton);
-//        gui.addButton(new Button(gui.getPosition().x + GUI_BORDER, gui.getPosition().y + GUI_BORDER,
-//                gui.getWidth() - 2 * GUI_BORDER, BUTTON_HEIGHT, ""));
-        markButton.setClickEvent(() -> StrategyTester.setCellMarks(puzzle));
 
         Button solveButton = new Button(gui.getPosition().x,
                 markButton.getPosition().y + BUTTON_HEIGHT,
                 gui.getWidth(), BUTTON_HEIGHT, "Solve");
-        solveButton.setClickEvent(() -> StrategyTester.solve(puzzle));
-        gui.addButton(solveButton);
 
         Button resetButton = new Button(gui.getPosition().x,
                 solveButton.getPosition().y + BUTTON_HEIGHT,
                 gui.getWidth(), BUTTON_HEIGHT, "Reset");
-        resetButton.setClickEvent(() -> puzzle.reset());
-        gui.addButton(resetButton);
 
         SectionBreak boardControlBreak = new SectionBreak(gui.getPosition().x, resetButton.getPosition().y + BUTTON_HEIGHT, gui.getWidth());
-        gui.addSectionBreak(boardControlBreak);
 
         Button pencilButton = new Button(gui.getPosition().x,
                 boardControlBreak.getPosition().y + GUI_BORDER,
                 gui.getWidth(), BUTTON_HEIGHT, "Pencil");
-        pencilButton.setClickEvent(() -> StrategyTester.solve(puzzle));
-        gui.addButton(pencilButton);
 
         Button valueButton = new Button(gui.getPosition().x,
                 pencilButton.getPosition().y + BUTTON_HEIGHT,
                 gui.getWidth(), BUTTON_HEIGHT, "Values");
-        valueButton.setClickEvent(() -> puzzle.reset());
+        valueButton.setFocused(true);
+
+        quitButton.setClickEvent(() -> System.exit(0));
+        saveButton.setClickEvent(() -> puzzle.writeToString());
+        loadButton.setClickEvent(() -> puzzle.readFromString());
+        markButton.setClickEvent(() -> StrategyTester.setCellMarks(puzzle));
+        solveButton.setClickEvent(() -> StrategyTester.solve(puzzle));
+        resetButton.setClickEvent(() -> puzzle.reset());
+        valueButton.setClickEvent(() -> {
+            valueButton.setFocused(true);
+            pencilButton.setFocused(false);
+            puzzle.setMarkMode(false);
+        });
+        pencilButton.setClickEvent(() -> {
+            pencilButton.setFocused(true);
+            valueButton.setFocused(false);
+            puzzle.setMarkMode(true);
+        });
+
+        gui.addButton(quitButton);
+        gui.addButton(loadButton);
+        gui.addButton(saveButton);
+        gui.addSectionBreak(stateManagerBreak);
+        gui.addButton(markButton);
+        gui.addButton(solveButton);
+        gui.addButton(resetButton);
         gui.addButton(valueButton);
+        gui.addSectionBreak(boardControlBreak);
+        gui.addButton(pencilButton);
 
     }
 }

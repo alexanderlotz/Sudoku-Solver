@@ -29,6 +29,10 @@ public class Grid {
      *
      */
     private int height;
+    /**
+     *
+     */
+    private boolean markMode;
 
     /**
      *
@@ -42,6 +46,7 @@ public class Grid {
         }
         width = (BOARD_COLUMNS * CELL_SIZE) + (INNER_SQUARE_SIZE + 1) * INNER_SQUARE_BORDER;
         height = (BOARD_ROWS * CELL_SIZE) + (INNER_SQUARE_SIZE + 1) * INNER_SQUARE_BORDER;
+        markMode = false;
     }
 
     public Cell[][] getPuzzle() {
@@ -132,6 +137,14 @@ public class Grid {
      */
     public int getHeight() {
         return height;
+    }
+
+    public boolean isMarkMode() {
+        return markMode;
+    }
+
+    public void setMarkMode(boolean markMode) {
+        this.markMode = markMode;
     }
 
     public void writeToString() {

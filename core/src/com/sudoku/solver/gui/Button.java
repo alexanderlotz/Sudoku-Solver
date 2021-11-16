@@ -1,18 +1,10 @@
 package com.sudoku.solver.gui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.sudoku.solver.SudokuProperties;
-import com.sudoku.solver.board.Grid;
-
-import javax.swing.*;
 
 import static com.sudoku.solver.SudokuProperties.*;
 import static com.sudoku.solver.SudokuProperties.BUTTON_BORDER_WEIGHT;
@@ -37,9 +29,14 @@ public class Button {
     /**
      *
      */
+    private boolean focused;
+    /**
+     *
+     */
     private Clickable clickEvent;
 
     public Button(float x, float y, float width, float height, String text) {
+        focused = false;
         position = new Vector2(x + GUI_BORDER, y + GUI_BORDER);
         this.width = width - 2 * GUI_BORDER;
         this.height = height;
@@ -47,13 +44,14 @@ public class Button {
     }
 
     public void draw(ShapeRenderer screen) {
-        screen.setColor(BUTTON_BORDER_COLOR);
+        screen.setColor(focused ? BUTTON_CLICK_COLOR : BUTTON_BORDER_COLOR);
         screen.rect(position.x, position.y, width, height);
         screen.setColor(BUTTON_COLOR);
-        screen.rect(position.x + BUTTON_BORDER_WEIGHT,
-                position.y + BUTTON_BORDER_WEIGHT,
-                width - 2 * BUTTON_BORDER_WEIGHT,
-                height - 2 * BUTTON_BORDER_WEIGHT);
+        float border = focused ? 2 * BUTTON_BORDER_WEIGHT :BUTTON_BORDER_WEIGHT;
+        screen.rect(position.x + border,
+                position.y + border,
+                width - 2 * border,
+                height - 2 * border);
     }
 
     public Vector2 getPosition() {
@@ -70,6 +68,14 @@ public class Button {
 
     public String getText() {
         return text;
+    }
+
+    public boolean isFocused() {
+        return focused;
+    }
+
+    public void setFocused(boolean focused) {
+        this.focused = focused;
     }
 
     public boolean contains(Vector2 pos) {
