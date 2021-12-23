@@ -1,27 +1,49 @@
-# [Project name] <!-- omit in toc -->
+# Sudoku Solving Assistant <!-- omit in toc -->
 
-[Project description]
+A tool for solving sudoku puzzles and teaching users unfamiliar strategies to improve their skill.
 
 - [About](#about)
-    - [Our Team](#our-team)
+- [How to Use](#how-to-use)
+  - [Our Team](#our-team)
 - [Contribution Guidelines](#contribution-guidelines)
-    - [Submitting a Pull Request (PR)](#submitting-a-pull-request-pr)
-        - [After your pull request is merged](#after-your-pull-request-is-merged)
+  - [Submitting a Pull Request (PR)](#submitting-a-pull-request-pr)
+    - [After your pull request is merged](#after-your-pull-request-is-merged)
 - [Coding Rules](#coding-rules)
-    - [Code Style](#code-style)
-        - [Markdown](#markdown)
+  - [Code Style](#code-style)
+    - [Markdown](#markdown)
 - [Commit Message Guidelines](#commit-message-guidelines)
-    - [Commit Message Format](#commit-message-format)
-    - [Revert](#revert)
-    - [Type](#type)
-    - [Scope](#scope)
-    - [Description](#description)
-    - [Body](#body)
-    - [Footer](#footer)
+  - [Commit Message Format](#commit-message-format)
+  - [Revert](#revert)
+  - [Type](#type)
+  - [Scope](#scope)
+  - [Description](#description)
+  - [Body](#body)
+  - [Footer](#footer)
 
 ## About
 
-[Additional description]
+The skill necessary to complete sudoku puzzles grows exponentially with difficulty. Most easy and medium puzzles can be completed without the awareness that strategies even exist. Higher level puzzles necessitate strategies, some of which are considered only possible by or with the use of a computer. This tool is designed to teach users strategies such that they can grow to recognize and solve patterns in harder puzzles, as well as playing the role of the aforementioned computer assistant.
+
+## How to Use
+
+This program is an independent desktop application designed with a simple GUI. After cloning the repository, the program can be run from the project root using
+
+        ./gradlew run
+
+The application is then controlled with interface on the right side.
+
+![alt text](/documentation/images/sudoku-solver.png)
+
+- Mouse or arrow keys allow single and multi-square selection.
+- `Values` and `Pencil` are mutually exclusive marking options.
+- `Reset` will clear the current board.
+- `Solve` will complete the next, single step that can be completed with current markings.
+- `Mark` will enter all possible markings for incomplete squares.
+- `Save` will copy the current board to the clipboard in String format.
+- `Load` will load the clipboard contents to the board.
+- `Quit` will close the application.
+
+Puzzles can be exported from [7Sudoku](https://www.7sudoku.com/) for testing.
 
 ### Our Team
 

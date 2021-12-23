@@ -16,7 +16,6 @@ import com.sudoku.solver.gui.Button;
 import com.sudoku.solver.gui.GUI;
 
 import static com.sudoku.solver.SudokuProperties.BOARD_COLUMNS;
-import static com.sudoku.solver.SudokuProperties.GUI_BG_COLOR;
 
 public class InputHandler {
     /**
