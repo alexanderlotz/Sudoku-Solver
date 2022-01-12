@@ -32,7 +32,7 @@ This program is an independent desktop application designed with a simple GUI. A
 
 The application is then controlled with interface on the right side.
 
-![alt text](/documentation/images/sudoku-solver.png)
+![Example of Application Interface](/documentation/images/sudoku-solver.PNG)
 
 - Mouse or arrow keys allow single and multi-square selection.
 - `Values` and `Pencil` are mutually exclusive marking options.
